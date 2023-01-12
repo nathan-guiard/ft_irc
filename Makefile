@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/12 15:12:55 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/12 15:17:43 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CC		= c++
 
 INCLUDE = -Iinclude/
 
-CFLAGS	= -Wall -Werror -Wextra ${INCLUDE} -g #-fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g #-fsanitize=address
 
 NAME	= ft_irc
 

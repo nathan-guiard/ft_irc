@@ -1,0 +1,36 @@
+Channels:
+	- doit commencer par &, #, +, ou !
+  - doit pas contenir d'espaces, un ascii 0x07, une virgule
+  - case insensitive
+  - max 50 caractere de long en incluant le premier char
+
+User:
+  - caracteres non-authorises pour leur nom: (ASCII HEX)
+    0x00, 0x0A ('\n'), 0x0D ('\r'), 0x20 (' '), 0x40 ('@')
+
+
+Commandes:
+  - PASS <password>
+    j'ai pas res bien compris
+  
+  - NICK <nickname>
+    Se donner un pseudo ou changer le sien
+
+    ! ERR_NONICKNAMEGIVEN
+    ! ERR_ERRONEUSNICKNAME
+    ! ERR_NICKNAMEINUSE
+    ! ERR_NICKCOLLISION
+    ! ERR_UNAVAILRESOURCE
+    ! ERR_RESTRICTED
+  
+  - USER <user> <mode> <unused> <realname>
+    Specifier qui nous sommes a la connection
+    <user>:     nom d'utilisateur
+    <mode>:     paramete numerique -> masque https://www.rfc-editor.org/rfc/rfc2812#section-3.1.5
+    <unused>:   sert a rien
+    <realname>: real name (qui commence par ':' ?)
+
+    ! ERR_NEEDMOREPARAMS
+    ! ERR_ALREADYREGISTRED
+  
+  - OPER <name> <password>
