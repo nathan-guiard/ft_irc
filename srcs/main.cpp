@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/21 17:36:17 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/21 17:52:57 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ int main(int argc, char **argv) {
 	if (args_parsing(argc, argv, &port, &password)) {
 		return 2;
 	}
+	cout << "Port: " << port << endl;
+	cout << "Password: " << password << endl;
+
 	//test nathan
 	struct sockaddr_in	s;
 	struct sockaddr_in cs;
 	int	csock;
+	int	csock2;
 
 	socklen_t sinsize = sizeof cs;
 
@@ -51,13 +55,17 @@ int main(int argc, char **argv) {
 
 	bind(sock, (sockaddr *) &s, sizeof s);
 
-	listen(sock, 1);
-
+	listen(sock, MAX_CONNECTIONS);
 
 	csock = accept(sock, (sockaddr *) &cs, &sinsize);
+	csock2 = accept(sock, (sockaddr *) &cs, &sinsize);
 	
 	char buff[16];
-	while (read(csock, buff, 16) > 0) {
-		write(1, buff, 16);
+	char buff2[16];
+	while (1) {
+		if (read(csock, buff, 16) > 0)
+			write(1, buff, 16);
+		if (read(csock2, buff2, 16) > 0)
+			write(1, buff2, 16);
 	}
 }

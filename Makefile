@@ -6,13 +6,14 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/21 17:40:51 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/21 19:25:57 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	$(addsuffix .cpp, 	\
 		$(addprefix srcs/,	\
 		main 				\
+		Client				\
 		))
 
 SHELL	= /bin/zsh
