@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/21 19:00:47 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 11:33:14 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,18 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <set>
+#include <sys/epoll.h>
+#include <errno.h>
+#include <stdio.h>
+#include <map>
 
 using namespace std;
 class Client;
 
 #define MAX_CONNECTIONS	16
 
-typedef	set<Client>	client_set;
+typedef	map<int, Client>	client_map;
+
+bool	add_new_con(int fd_epoll, int fd_socket);
 
 #endif

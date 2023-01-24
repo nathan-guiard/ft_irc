@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 19:05:37 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/21 19:25:23 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 10:19:53 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
  * @brief Execute la commande NICK
  * 
  * @param new_nick	nouveau nickname
- * @param c_set 	set de tous les clients deja existants
+ * @param c_map 	set de tous les clients deja existants
  * @return true 	le nickname a ete change
  * @return false	le nickname n'a pas ete change (erreur)
  */
-bool	Client::NICK(const string &new_nick, const client_set &c_set) {
-	client_set::iterator	it = c_set.begin();
-	client_set::iterator	ite = c_set.end();
-	
+bool	Client::NICK(const string &new_nick, const client_map &c_map) {
+	client_map::const_iterator	it = c_map.begin();
+	client_map::const_iterator	ite = c_map.end();
+
 	if (new_nick.empty()) {
 		// Execute l'erreur ERR_NONICKNAMEGIVEN
 		return false;
@@ -34,8 +34,8 @@ bool	Client::NICK(const string &new_nick, const client_set &c_set) {
 	// sinon ERR_ERRONEUSNICKNAME et return false
 
 	for (; it != ite; it++) {
-		bool	is_the_same = (*it).get_nick() == new_nick;
-		bool	is_not_me	= (*it).get_nick() != _nick;
+		bool	is_the_same = (*it).second.get_nick() == new_nick;
+		bool	is_not_me	= (*it).second.get_nick() != _nick;
 
 		if (is_the_same && is_not_me) {
 			// Execute l'erreur ERR_NICKNAMEINUSE
