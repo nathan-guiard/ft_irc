@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:52:52 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 17:51:33 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <map>
+#include <set>
 
 #define MAX_CONNECTIONS	16
 

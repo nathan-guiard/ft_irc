@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 17:10:29 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 18:41:02 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ con_data	init_connection_data(int port) {
 	return data;
 }
 
-string	get_command(int fd_user) {
+string	get_command(int fd_user) { // a revoir pour que ca split sur les \n tout ca tout ca
 	char	buff[16];
 	string	res("");
 	int		bytes_read;
@@ -108,5 +108,6 @@ string	get_command(int fd_user) {
 		bytes_read = read(fd_user, buff, 16);
 		buff[bytes_read] = 0;
 	}
+	res.erase(--(res.end()));
 	return res;
 }
