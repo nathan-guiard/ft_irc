@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_utils.cpp                                   :+:      :+:    :+:   */
+/*   User_utils.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,29 +13,29 @@
 #include "irc.hpp"
 
 /**
- * @brief	Finds the ID of the client with the FD
+ * @brief	Finds the ID of the User with the FD
  * 
- * @details Since we have a map of type <ID, Client>,
+ * @details Since we have a map of type <ID, User>,
  * 			having a function that return the ID when we
  * 			only have the FD can be really helpfull to
- * 			find the needed client.
+ * 			find the needed User.
  * 
- * @example	clients[fd_to_id(fd)] -> the client related to
+ * @example	users[fd_to_id(fd)] -> the User related to
  * 			the fd.
  * 
- * @param clients	client_map of the all the clients
- * @param fd 		The FD to search the client
+ * @param users	user_map of the all the users
+ * @param fd 		The FD to search the User
  * @return	 		The matching ID of the FD
  */
-int	fd_to_id(const client_map &clients, int fd) {
-	client_map::const_iterator	it = clients.begin();
-	client_map::const_iterator	ite = clients.end();
+int	fd_to_id(const user_map &users, int fd) {
+	user_map::const_iterator	it = users.begin();
+	user_map::const_iterator	ite = users.end();
 
 	for (; it != ite; it++) {
-		Client current_client((*it).second);
+		User current_User((*it).second);
 
-		if (current_client.get_fd() == fd) {
-			return current_client.get_id();
+		if (current_User.get_fd() == fd) {
+			return current_User.get_id();
 		}
 	}
 	return -1;

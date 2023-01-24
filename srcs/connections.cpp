@@ -6,30 +6,30 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 14:53:52 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:16:44 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-bool	deconnection(con_data &data, int fd, client_map *clients) {
+bool	deconnection(con_data &data, int fd, user_map *users) {
 	epoll_ctl(data.fd_epoll, EPOLL_CTL_DEL, fd, &data.event_socket);
 	close(fd);
 
-	int		id_of_disconnected = fd_to_id(*clients, fd);
-	Client	disconnected_client;
-	try { disconnected_client = clients->at(id_of_disconnected); }
+	int		id_of_disconnected = fd_to_id(*users, fd);
+	User	disconnected_User;
+	try { disconnected_User = users->at(id_of_disconnected); }
 	catch (std::out_of_range) {
-		cerr << "Client identified by fd " << fd << " is not findable" << endl;
+		cerr << "User identified by fd " << fd << " is not findable" << endl;
 		return false;
 	}
 
-	clients->erase(id_of_disconnected);
-	cout << "\033[31mClient " << disconnected_client.get_id() << " disconnected.\033[0m" << endl;
+	users->erase(id_of_disconnected);
+	cout << "\033[31mUser " << disconnected_User.get_id() << " disconnected.\033[0m" << endl;
 	return true;
 }
 
-bool	new_connection(int fd_epoll, int fd_socket, client_map *clients) {
+bool	new_connection(int fd_epoll, int fd_socket, user_map *users) {
 	int 				fd_new_con;
 	struct sockaddr_in	s_new_con;
 	socklen_t			size_s_new_con = sizeof s_new_con;
@@ -44,13 +44,13 @@ bool	new_connection(int fd_epoll, int fd_socket, client_map *clients) {
 		exit(1);
 	}
 
-	Client	new_client(id, fd_new_con);
+	User	new_User(id, fd_new_con);
 	
 	event_new_con.events = EPOLLIN | EPOLLRDHUP;
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
-	clients->insert(make_pair(id, new_client));
-	cout << "\033[34mClient " << id << " added. Fd: " << fd_new_con << endl;
+	users->insert(make_pair(id, new_User));
+	cout << "\033[34mUser " << id << " added. Fd: " << fd_new_con << endl;
 	cout << "\033[0m";
 	id++;
 	return true;
@@ -88,4 +88,19 @@ con_data	init_connection_data(int port) {
 
 	listen(data.fd_socket, MAX_CONNECTIONS);
 	return data;
+}
+
+string	get_command(const user_map &users, int fd_user) {
+	(void)users;
+	char	buff[16];
+
+
+	bzero(buff, 16);
+	while (read(fd_user, buff, 16) > 0) {
+		write(1, buff, 16);
+		if (string(buff).find('\n') != string::npos)
+			break;
+		bzero(buff, 16);
+	}
+	return "";
 }

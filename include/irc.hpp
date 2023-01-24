@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 14:37:46 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:15:58 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
 
 using namespace std;
 
-class Client;
+class User;
 
-typedef map<int, Client>	client_map;
+typedef map<int, User>	user_map;
 
 typedef struct con_data {
 	int fd_epoll;
@@ -44,14 +44,16 @@ typedef struct con_data {
 	struct epoll_event	events[MAX_CONNECTIONS];
 }	con_data;
 
-#include "Client.hpp"
+#include "User.hpp"
 
 /*	Connections	*/
-bool		new_connection(int fd_epoll, int fd_socket, client_map *clients);
-bool		deconnection(con_data &data, int fd, client_map *clients);
+bool		new_connection(int fd_epoll, int fd_socket, user_map *users);
+bool		deconnection(con_data &data, int fd, user_map *users);
 con_data	init_connection_data(int port);
+string		get_command(const user_map &users, int fd_user);
 
-/*	Client		*/
-int			fd_to_id(const client_map &clients, int fd);
+/*	User		*/
+int			fd_to_id(const user_map &users, int fd);
+
 
 #endif

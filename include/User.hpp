@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   User.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,30 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_IRC
-#define CLIENT_IRC
+#ifndef User_IRC
+#define User_IRC
 
 #include "irc.hpp"
 
 /**
- * @brief Classe Client
+ * @brief Classe User
  * 
- * @param Nick nickname NICK -> Unique parmis les clients
+ * @param Nick nickname NICK -> Unique parmis les users
  * @param User username USER
 **/
 
-class Client {
+class User {
 public:
-	Client();
-	Client(int id, int fd);
-	Client(const Client &copy);
-	// Client(string Nick, string User): _nick(Nick), _user(User) {}
-	~Client() {}
+	User();
+	User(int id, int fd);
+	User(const User &copy);
+	// User(string Nick, string User): _nick(Nick), _user(User) {}
+	~User() {}
 
-	Client &operator = (const Client &copy);
+	User &operator = (const User &copy);
 
-	/*	Commandes relatives exclusivements aux clients	*/
-	bool	NICK(const string &new_nick, const client_map &c_map);
+	/*	Commandes relatives exclusivements aux users	*/
+	bool	NICK(const string &new_nick, const user_map &c_map);
 	bool	USER(const string &new_user, const string &new_realname);
 
 	string	get_user()	const;
