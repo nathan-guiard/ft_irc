@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 12:20:51 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 13:28:01 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 #include <signal.h>
 #include <sys/epoll.h>
 #include <errno.h>
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 #include <map>
 
 using namespace std;
@@ -34,6 +35,17 @@ class Client;
 
 typedef	map<int, Client>	client_map;
 
-bool	add_new_con(int fd_epoll, int fd_socket);
+typedef struct con_data {
+	int fd_epoll;
+	int	fd_socket;
+	struct sockaddr_in	soc_addr;
+	struct epoll_event	event_socket;
+	struct epoll_event	events[MAX_CONNECTIONS];
+}	con_data;
+
+/*	Connections	*/
+bool		new_connection(int fd_epoll, int fd_socket);
+bool		deconnection(con_data &data, int fd);
+con_data	init_connection_data(int port);
 
 #endif
