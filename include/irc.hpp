@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 11:33:14 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 12:20:51 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <sys/epoll.h>
 #include <errno.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <map>
 
 using namespace std;

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 12:17:13 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 12:41:38 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ int main(int argc, char **argv) {
 		}
 		cout << event_count << " event(s)" << endl;
 		for (int i = 0; i < event_count; i++) {
-			cout << "Event happend on fd " << events[i].data.fd <<endl;
-
-			// if (write(events[i].data.fd, "", 0) == -1)
-			// 	perror("write()");
-
-			
+			cout << "Event happend on fd " << events[i].data.fd << endl;
+			if (events[i].events & EPOLLRDHUP) {
+				epoll_ctl(fd_epoll, EPOLL_CTL_DEL, events[i].data.fd, &event_socket);
+				cout << "Fd " << events[i].data.fd << " disconnected";
+				sleep(2);
+			}
 			if (events[i].data.fd == fd_socket) {
 				if (events[i].events & EPOLLIN)
 					add_new_con(fd_epoll, fd_socket);
@@ -119,7 +119,7 @@ bool	add_new_con(int fd_epoll, int fd_socket) {
 		// check d'autres trucs
 		exit(1);
 	}
-	event_new_con.events = EPOLLIN;
+	event_new_con.events = EPOLLIN | EPOLLRDHUP;
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
 	cout << "Client " << id << " added. Fd: " << fd_new_con << endl;
