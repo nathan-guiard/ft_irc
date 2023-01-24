@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:15:58 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:52:52 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct con_data {
 bool		new_connection(int fd_epoll, int fd_socket, user_map *users);
 bool		deconnection(con_data &data, int fd, user_map *users);
 con_data	init_connection_data(int port);
-string		get_command(const user_map &users, int fd_user);
+string		get_command(int fd_user);
 
 /*	User		*/
 int			fd_to_id(const user_map &users, int fd);
