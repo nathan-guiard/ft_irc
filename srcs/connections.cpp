@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:16:44 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:25:47 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,17 @@ con_data	init_connection_data(int port) {
 string	get_command(const user_map &users, int fd_user) {
 	(void)users;
 	char	buff[16];
+	string	res;
 
 
 	bzero(buff, 16);
 	while (read(fd_user, buff, 16) > 0) {
-		write(1, buff, 16);
-		if (string(buff).find('\n') != string::npos)
+		res += buff;
+		if (string(buff).find('\n') != string::npos) {
+			res.erase(--(res.end()));
 			break;
+		}
 		bzero(buff, 16);
 	}
-	return "";
+	return res;
 }
