@@ -6,20 +6,30 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 13:22:45 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 14:53:52 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-bool	deconnection(con_data &data, int fd) {
+bool	deconnection(con_data &data, int fd, client_map *clients) {
 	epoll_ctl(data.fd_epoll, EPOLL_CTL_DEL, fd, &data.event_socket);
-	cout << "\033[31mFd " << fd << " disconnected\033[0m" << endl;
 	close(fd);
+
+	int		id_of_disconnected = fd_to_id(*clients, fd);
+	Client	disconnected_client;
+	try { disconnected_client = clients->at(id_of_disconnected); }
+	catch (std::out_of_range) {
+		cerr << "Client identified by fd " << fd << " is not findable" << endl;
+		return false;
+	}
+
+	clients->erase(id_of_disconnected);
+	cout << "\033[31mClient " << disconnected_client.get_id() << " disconnected.\033[0m" << endl;
 	return true;
 }
 
-bool	new_connection(int fd_epoll, int fd_socket) {
+bool	new_connection(int fd_epoll, int fd_socket, client_map *clients) {
 	int 				fd_new_con;
 	struct sockaddr_in	s_new_con;
 	socklen_t			size_s_new_con = sizeof s_new_con;
@@ -33,10 +43,13 @@ bool	new_connection(int fd_epoll, int fd_socket) {
 		// check d'autres trucs
 		exit(1);
 	}
+
+	Client	new_client(id, fd_new_con);
 	
 	event_new_con.events = EPOLLIN | EPOLLRDHUP;
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
+	clients->insert(make_pair(id, new_client));
 	cout << "\033[34mClient " << id << " added. Fd: " << fd_new_con << endl;
 	cout << "\033[0m";
 	id++;

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 13:28:22 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 15:02:24 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
 	int			port;
 	string		password;
 	con_data	data;
+	client_map	clients;
 
 	if (args_parsing(argc, argv, &port, &password)) {
 		return 2;
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
 	data = init_connection_data(port);
 
 	while (42) {
-		cout << "---" << endl;
+		// cout << "---" << endl;
 		int event_count = epoll_wait(data.fd_epoll, data.events,
 										MAX_CONNECTIONS, -1);
 		if (event_count == -1) {
@@ -51,19 +52,23 @@ int main(int argc, char **argv) {
 			// check d'autres trucs
 			exit(1);
 		}
-		cout << event_count << " event(s)" << endl;
+		// cout << event_count << " event(s)" << endl;
 		for (int i = 0; i < event_count; i++) {
-			cout << "Event happend on fd " << data.events[i].data.fd << endl;
+			// cout << "Event happend on fd " << data.events[i].data.fd << endl;
 			
-			if (data.events[i].events & EPOLLRDHUP)
-				deconnection(data, data.events[i].data.fd);
+			int client_id = fd_to_id(clients, data.events[i].data.fd);
 			
 			if (data.events[i].data.fd == data.fd_socket)
-				new_connection(data.fd_epoll, data.fd_socket);
+				new_connection(data.fd_epoll, data.fd_socket, &clients);
 
-			else { // A changer, c'est juste pour check pour l'instant
+			if (data.events[i].events & EPOLLRDHUP)
+				deconnection(data, data.events[i].data.fd, &clients);
+			
+
+			else if (client_id != -1) { // A changer, c'est juste pour check pour l'instant
 				char buff[16];
 				bzero(buff, 16);
+				cout << "\033[1mClient " << client_id << ": \033[0m" << flush;
 				while (read(data.events[i].data.fd, buff, 16) > 0) {
 					write(1, buff, 16);
 					if (string(buff).find('\n') != string::npos)

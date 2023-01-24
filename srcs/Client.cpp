@@ -6,12 +6,48 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 19:05:37 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 10:19:53 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 14:21:07 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
+Client::Client(): _id(-1), _fd(-1), _nick(), _user(), _realname() {}
+
+Client::Client(int id, int fd): _id(id), _fd(fd), _nick(), _user(), _realname() {}
+
+Client::Client(const Client &copy) {
+	*this = copy;
+}
+
+string	Client::get_user()	const {
+	return _user;
+}
+
+string	Client::get_nick()	const {
+	return _nick;
+}
+
+string	Client::get_real()	const {
+	return _realname;
+}
+
+int	Client::get_id()	const {
+	return _id;
+}
+
+int	Client::get_fd()	const {
+	return _fd;
+}
+
+Client &Client::operator = (const Client &copy) {
+	this->_fd = copy._fd;
+	this->_id = copy._id;
+	this->_nick = copy._nick;
+	this->_realname = copy._realname;
+	this->_user = copy._user;
+	return *this;
+}
 
 /**
  * @brief Execute la commande NICK

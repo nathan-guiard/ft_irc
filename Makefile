@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/24 13:19:38 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/24 14:53:27 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ SRC =	$(addsuffix .cpp, 	\
 		main 				\
 		Client				\
 		connections			\
+		client_utils		\
 		))
 
 SHELL	= /bin/zsh

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 18:42:50 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 10:18:46 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 14:19:54 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,26 @@
 
 class Client {
 public:
-	Client(): _nick(), _user() {}
+	Client();
+	Client(int id, int fd);
+	Client(const Client &copy);
 	// Client(string Nick, string User): _nick(Nick), _user(User) {}
 	~Client() {}
 
+	Client &operator = (const Client &copy);
+
 	/*	Commandes relatives exclusivements aux clients	*/
-	bool	NICK(const string &new_nick, const client_map &c_set);
+	bool	NICK(const string &new_nick, const client_map &c_map);
 	bool	USER(const string &new_user, const string &new_realname);
 
-	string	get_user()	const {
-		return _user;
-	}
-
-	string	get_nick()	const {
-		return _nick;
-	}
+	string	get_user()	const;
+	string	get_nick()	const;
+	string	get_real()	const;
+	int		get_id()	const;
+	int		get_fd()	const;
 
 private:
+	int		_id, _fd;
 	string	_nick, _user, _realname;
 };
 
