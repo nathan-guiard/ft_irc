@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connections.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:16:44 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/24 18:12:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	new_connection(int fd_epoll, int fd_socket, user_map *users) {
 
 	User	new_User(id, fd_new_con);
 	
+	//recuperer son nom son nickname et 
 	event_new_con.events = EPOLLIN | EPOLLRDHUP;
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
@@ -85,8 +86,10 @@ con_data	init_connection_data(int port) {
 		close(data.fd_socket);
 		exit(1);
 	}
-
 	listen(data.fd_socket, MAX_CONNECTIONS);
+	//marque la socket référencée par sockfd comme passive socket
+    //c'est-à-dire en tant que socket qui sera utilisé pour accepter
+	//requêtes de connexion en utilisant accept(2) 
 	return data;
 }
 
