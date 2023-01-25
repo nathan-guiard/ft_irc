@@ -6,11 +6,16 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 13:16:45 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 17:30:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
+
+int			g_fd_epoll;
+int			g_fd_socket;
+vector<int>	g_open_fd;
+user_map	g_users;
 
 bool args_parsing(int argc, char **argv, int *port, string *password) {
 	if (argc != 3) {
@@ -29,15 +34,35 @@ bool args_parsing(int argc, char **argv, int *port, string *password) {
 	return false;
 }
 
+void signal_handling(int signum) {
+	(void)signum;
+	vector<int>::iterator	it = g_open_fd.begin();
+	vector<int>::iterator	ite = g_open_fd.end();
+	user_map::iterator		it_map = g_users.begin();
+	user_map::iterator		ite_map = g_users.end();
+
+	close(g_fd_epoll);
+	close(g_fd_socket);
+	for (; it != ite; it++) {
+		close(*it);
+	}
+	for (; it_map != ite_map; it_map++) {
+		delete (*it_map).second;
+	}
+
+	cout << "Au revoir <3" << endl;
+	exit(0);
+}
+
 int main(int argc, char **argv) {
 	int			port;
 	string		password;
 	con_data	data;
-	user_map	users;
 
 	if (args_parsing(argc, argv, &port, &password)) {
 		return 2;
 	}
+	signal(SIGINT, signal_handling);
 	cout << "Port: " << port << endl;
 	cout << "Password: " << password << endl;
 
@@ -56,22 +81,22 @@ int main(int argc, char **argv) {
 		for (int i = 0; i < event_count; i++) {
 			// cout << "Event happend on fd " << data.events[i].data.fd << endl;
 			
-			int user_id = fd_to_id(users, data.events[i].data.fd);
+			int user_id = fd_to_id(data.events[i].data.fd);
 			
 			if (data.events[i].data.fd == data.fd_socket)
-				new_connection(data.fd_epoll, data.fd_socket, &users);
+				new_connection(data.fd_epoll, data.fd_socket);
 
 			if (data.events[i].events & EPOLLRDHUP)
-				deconnection(data, data.events[i].data.fd, &users);
+				deconnection(data, data.events[i].data.fd);
 			
 
 			else if (user_id != -1) { // A changer, c'est juste pour check pour l'instant
 				vector<string>	command = get_command(data.events[i].data.fd);
 				
-				if (command.empty()) {
+				if (command.empty() /* -> si la commande a pas finie d'etre ecrite (CTRL-D)*/) {
 					// Rien faire ?
 				}
-				
+
 				vector<string>::iterator	ite = command.end();
 				vector<string>::iterator	it = command.begin();
 				cout << "\033[0;34m";

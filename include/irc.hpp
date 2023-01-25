@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 14:15:34 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 17:23:27 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ using namespace std;
 
 class User;
 
-typedef map<int, User>	user_map;
+typedef map<int, User *>	user_map;
 
 typedef struct con_data {
-	int fd_epoll;
-	int	fd_socket;
+	int					fd_epoll;
+	int					fd_socket;
 	struct sockaddr_in	soc_addr;
 	struct epoll_event	event_socket;
 	struct epoll_event	events[MAX_CONNECTIONS];
@@ -51,17 +51,21 @@ typedef struct con_data {
 
 #include "User.hpp"
 
+extern int			g_fd_epoll;
+extern int			g_fd_socket;
+extern vector<int>	g_open_fd;
+extern user_map		g_users;
+
 /*	Connections	*/
-bool				new_connection(int fd_epoll, int fd_socket, user_map *users);
-bool				deconnection(con_data &data, int fd, user_map *users);
+bool				new_connection(int fd_epoll, int fd_socket);
+bool				deconnection(con_data &data, int fd);
 con_data			init_connection_data(int port);
 vector<string>		get_command(int fd_user);
 
 /*	User		*/
-int					fd_to_id(const user_map &users, int fd);
-User				fd_to_user(const user_map &users, int fd);
+int					fd_to_id(int fd);
+User				*fd_to_user(int fd);
 string				my_itoa(int nb);
-
 
 /*	Pour itoa	*/
 namespace patch
