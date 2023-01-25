@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:15:58 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 14:15:34 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <string>
+#include <iosfwd>
+#include <sstream>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -27,8 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <map>
+#include <set>
+#include <vector>
 
 #define MAX_CONNECTIONS	16
+#define	READ_SIZE		16
 
 using namespace std;
 
@@ -47,13 +52,26 @@ typedef struct con_data {
 #include "User.hpp"
 
 /*	Connections	*/
-bool		new_connection(int fd_epoll, int fd_socket, user_map *users);
-bool		deconnection(con_data &data, int fd, user_map *users);
-con_data	init_connection_data(int port);
-string		get_command(const user_map &users, int fd_user);
+bool				new_connection(int fd_epoll, int fd_socket, user_map *users);
+bool				deconnection(con_data &data, int fd, user_map *users);
+con_data			init_connection_data(int port);
+vector<string>		get_command(int fd_user);
 
 /*	User		*/
-int			fd_to_id(const user_map &users, int fd);
+int					fd_to_id(const user_map &users, int fd);
+User				fd_to_user(const user_map &users, int fd);
+string				my_itoa(int nb);
 
+
+/*	Pour itoa	*/
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm;
+        stm << n ;
+        return stm.str();
+    }
+}
 
 #endif

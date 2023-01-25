@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/24 16:14:06 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/25 13:09:49 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC =	$(addsuffix .cpp, 	\
 		User				\
 		connections			\
 		user_utils			\
+		get_command			\
 		))
 
 SHELL	= /bin/zsh
@@ -26,7 +27,7 @@ CC		= c++
 
 INCLUDE = -Iinclude/
 
-CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g #-fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g -fsanitize=address
 
 NAME	= ircserv
 

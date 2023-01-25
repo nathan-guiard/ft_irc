@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 18:12:41 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:45:02 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool	deconnection(con_data &data, int fd, user_map *users) {
 	}
 
 	users->erase(id_of_disconnected);
-	cout << "\033[31mUser " << disconnected_User.get_id() << " disconnected.\033[0m" << endl;
+	cout << "User " << disconnected_User.get_id();
+	cout << " disconnected." << endl;
 	return true;
 }
 
@@ -51,9 +52,8 @@ bool	new_connection(int fd_epoll, int fd_socket, user_map *users) {
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
 	users->insert(make_pair(id, new_User));
-	cout << "\033[34mUser " << id << " added. Fd: " << fd_new_con << endl;
-	cout << "\033[0m";
 	id++;
+	new_User.send_to(1, "Bienvenue sur le serveur :).");
 	return true;
 }
 
@@ -91,19 +91,4 @@ con_data	init_connection_data(int port) {
     //c'est-à-dire en tant que socket qui sera utilisé pour accepter
 	//requêtes de connexion en utilisant accept(2) 
 	return data;
-}
-
-string	get_command(const user_map &users, int fd_user) {
-	(void)users;
-	char	buff[16];
-
-
-	bzero(buff, 16);
-	while (read(fd_user, buff, 16) > 0) {
-		write(1, buff, 16);
-		if (string(buff).find('\n') != string::npos)
-			break;
-		bzero(buff, 16);
-	}
-	return "";
 }

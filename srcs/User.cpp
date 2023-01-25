@@ -109,3 +109,24 @@ bool User::USER(const string &new_user, const string &new_realname) {
 	_realname = new_realname;
 	return true;
 }
+
+bool	User::send_to(int code, string text) {
+	bool	is_an_error = code >= 400 && code < 500;
+	string	code_string = my_itoa(code);
+
+	if (write(_fd, code_string.c_str(), code_string.length()) < 1)
+		return false;
+	if (write(_fd, " ", 1) < 1)
+		return false;
+	if (write(_fd, text.c_str(), text.length()) < 1)
+		return false;
+	if (write(_fd, "\n", 1) < 1)
+		return false;
+
+	if (is_an_error)
+		cout << "\033[31m";
+	else
+		cout << "\033[32m";
+	cout << _id << " > " << code_string << " " << text << "\033[0m" << endl;
+	return true;
+}
