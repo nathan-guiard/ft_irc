@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 10:55:36 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 14:15:34 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <string>
+#include <iosfwd>
+#include <sstream>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -57,5 +59,19 @@ vector<string>		get_command(int fd_user);
 
 /*	User		*/
 int					fd_to_id(const user_map &users, int fd);
+User				fd_to_user(const user_map &users, int fd);
+string				my_itoa(int nb);
+
+
+/*	Pour itoa	*/
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm;
+        stm << n ;
+        return stm.str();
+    }
+}
 
 #endif

@@ -27,7 +27,6 @@ public:
 	User();
 	User(int id, int fd);
 	User(const User &copy);
-	// User(string Nick, string User): _nick(Nick), _user(User) {}
 	~User() {}
 
 	User &operator = (const User &copy);
@@ -35,6 +34,8 @@ public:
 	/*	Commandes relatives exclusivements aux users	*/
 	bool	NICK(const string &new_nick, const user_map &c_map);
 	bool	USER(const string &new_user, const string &new_realname);
+
+	bool	send_to(int code, string text);
 
 	string	get_user()	const;
 	string	get_nick()	const;

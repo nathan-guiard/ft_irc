@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 12:05:56 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:13:50 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 static string	read_connection_data(int fd_user);
 
-vector<string>	get_command(int fd_user) { // a revoir pour que ca split sur les \n tout ca tout ca
+/**
+ * @brief 	get every command that the user sended.
+ * 			stocks the command if no \n were given
+ * 			(like get_next_line)
+ * 
+ * @param	fd_user fd of the given user	
+ * @return	Every command that the user sent. Empty if none.
+ */
+vector<string>	get_command(int fd_user) {
 	static string	command;
 	string			line;
 	vector<string>	res;
@@ -46,12 +54,12 @@ vector<string>	get_command(int fd_user) { // a revoir pour que ca split sur les 
 }
 
 static string	read_connection_data(int fd_user) {
-	char				buff[READ_SIZE];
+	char				buff[READ_SIZE + 1];
 	int					bytes_read;
 	string				res;	
 
 	
-	bzero(buff, READ_SIZE);
+	bzero(buff, READ_SIZE + 1);
 	bytes_read = read(fd_user, buff, READ_SIZE);
 	buff[bytes_read] = 0;
 	while (bytes_read > 0) {

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 11:00:26 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 14:06:50 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ bool	deconnection(con_data &data, int fd, user_map *users) {
 	}
 
 	users->erase(id_of_disconnected);
-	cout << "\033[31mUser " << disconnected_User.get_id();
-	cout << " disconnected.\033[0m" << endl;
+	cout << "User " << disconnected_User.get_id();
+	cout << " disconnected." << endl;
 	return true;
 }
 
@@ -51,9 +51,8 @@ bool	new_connection(int fd_epoll, int fd_socket, user_map *users) {
 	event_new_con.data.fd = fd_new_con;
 	epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con);
 	users->insert(make_pair(id, new_User));
-	cout << "\033[34mUser " << id << " added. Fd: " << fd_new_con << endl;
-	cout << "\033[0m";
 	id++;
+	new_User.send_to(1, "Bienvenue sur le serveur :).");
 	return true;
 }
 
