@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 17:51:33 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 10:55:36 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@
 #include <string.h>
 #include <map>
 #include <set>
+#include <vector>
 
 #define MAX_CONNECTIONS	16
+#define	READ_SIZE		16
 
 using namespace std;
 
@@ -48,13 +50,12 @@ typedef struct con_data {
 #include "User.hpp"
 
 /*	Connections	*/
-bool		new_connection(int fd_epoll, int fd_socket, user_map *users);
-bool		deconnection(con_data &data, int fd, user_map *users);
-con_data	init_connection_data(int port);
-string		get_command(int fd_user);
+bool				new_connection(int fd_epoll, int fd_socket, user_map *users);
+bool				deconnection(con_data &data, int fd, user_map *users);
+con_data			init_connection_data(int port);
+vector<string>		get_command(int fd_user);
 
 /*	User		*/
-int			fd_to_id(const user_map &users, int fd);
-
+int					fd_to_id(const user_map &users, int fd);
 
 #endif

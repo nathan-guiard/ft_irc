@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 16:52:59 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:29:38 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,14 @@ int main(int argc, char **argv) {
 			
 
 			else if (user_id != -1) { // A changer, c'est juste pour check pour l'instant
-				string	command = get_command(data.events[i].data.fd);
-				cout << user_id << ": " << command << endl;
+				vector<string>	command = get_command(data.events[i].data.fd);
+				
+				if (command.empty())
+					cout << "Command not finished" << endl;
+				vector<string>::iterator	ite = command.end();
+				vector<string>::iterator	it = command.begin();
+				for (; it != ite; it++)
+					cout << user_id << ": " << *it << endl;
 			}
 		}
 	}

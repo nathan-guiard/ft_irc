@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 18:41:02 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:00:26 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool	deconnection(con_data &data, int fd, user_map *users) {
 	}
 
 	users->erase(id_of_disconnected);
-	cout << "\033[31mUser " << disconnected_User.get_id() << " disconnected.\033[0m" << endl;
+	cout << "\033[31mUser " << disconnected_User.get_id();
+	cout << " disconnected.\033[0m" << endl;
 	return true;
 }
 
@@ -88,26 +89,4 @@ con_data	init_connection_data(int port) {
 
 	listen(data.fd_socket, MAX_CONNECTIONS);
 	return data;
-}
-
-string	get_command(int fd_user) { // a revoir pour que ca split sur les \n tout ca tout ca
-	char	buff[16];
-	string	res("");
-	int		bytes_read;
-
-	bzero(buff, 16);
-	bytes_read = read(fd_user, buff, 16);
-	buff[bytes_read] = 0;
-	while (bytes_read > 0) {
-		res.append(buff);
-		if (strchr(res.c_str(), '\n')) {
-			bzero(buff, 16);
-			break;
-		}
-		bzero(buff, 16);
-		bytes_read = read(fd_user, buff, 16);
-		buff[bytes_read] = 0;
-	}
-	res.erase(--(res.end()));
-	return res;
 }
