@@ -70,8 +70,8 @@ bool	User::NICK(const string &new_nick, const user_map &c_map) {
 	// sinon ERR_ERRONEUSNICKNAME et return false
 
 	for (; it != ite; it++) {
-		bool	is_the_same = (*it).second.get_nick() == new_nick;
-		bool	is_not_me	= (*it).second.get_nick() != _nick;
+		bool	is_the_same = (*it).second->get_nick() == new_nick;
+		bool	is_not_me	= (*it).second->get_nick() != _nick;
 
 		if (is_the_same && is_not_me) {
 			// Execute l'erreur ERR_NICKNAMEINUSE
