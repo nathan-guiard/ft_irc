@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 17:23:27 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:57:35 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,9 @@ namespace patch
         return stm.str();
     }
 }
+
+/*ERROR HANDLING*/
+void    closeFdsExit(const char *message, int errCode);
+void	closeAndFreeAll(const char *message, int errCode);
 
 #endif

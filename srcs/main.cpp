@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/25 19:20:25 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:14:12 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,8 @@ int main(int argc, char **argv) {
 		// cout << "---" << endl;
 		int event_count = epoll_wait(data.fd_epoll, data.events,
 										MAX_CONNECTIONS, -1);
-		if (event_count == -1) {
-			cerr << "epoll_wait(): Error." << endl;
-			// check d'autres trucs
-			exit(1);
-		}
+		if (event_count == -1)
+			closeAndFreeAll("epoll_wait(): Error", 6);
 		// cout << event_count << " event(s)" << endl;
 		for (int i = 0; i < event_count; i++) {
 			// cout << "Event happend on fd " << data.events[i].data.fd << endl;

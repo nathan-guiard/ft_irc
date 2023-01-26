@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/25 19:06:44 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/26 17:33:34 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC =	$(addsuffix .cpp, 	\
 		connections			\
 		user_utils			\
 		get_command			\
+		errorHandler		\
 		))
 
 SHELL	= /bin/zsh
