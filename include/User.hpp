@@ -45,7 +45,7 @@ public:
 
 private:
 	int		_id, _fd;
-	
+	string	_nick, _user, _realname;
 };
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
+#    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/25 17:15:31 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/25 19:06:44 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CC		= c++
 
 INCLUDE = -Iinclude/
 
-CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g #-fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g #mK-fsanitize=address
 
 NAME	= ircserv
 
