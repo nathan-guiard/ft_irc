@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/26 18:14:06 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:56:34 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ bool	new_connection(int fd_epoll, int fd_socket) {
 	if (epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con) == -1)
 		closeAndFreeAll("epoll_ctl error", 7);
 	id++;
-	new_User->send_to(1, "Bienvenue sur le serveur :).");
+	
+	
 	return true;
 }
 

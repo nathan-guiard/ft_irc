@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/26 18:14:12 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:00:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 		int event_count = epoll_wait(data.fd_epoll, data.events,
 										MAX_CONNECTIONS, -1);
 		if (event_count == -1)
-			closeAndFreeAll("epoll_wait(): Error", 6);
+			closeAndFreeAll("epoll_wait()", 6);
 		// cout << event_count << " event(s)" << endl;
 		for (int i = 0; i < event_count; i++) {
 			// cout << "Event happend on fd " << data.events[i].data.fd << endl;
@@ -86,7 +86,6 @@ int main(int argc, char **argv) {
 			if (data.events[i].events & EPOLLRDHUP)
 				deconnection(data, data.events[i].data.fd);
 			
-
 			else if (user_id != -1) { // A changer, c'est juste pour check pour l'instant
 				vector<string>	command = get_command(data.events[i].data.fd);
 				
@@ -100,6 +99,10 @@ int main(int argc, char **argv) {
 				for (; it != ite; it++)
 					cout << user_id << " < " << *it << endl;
 				cout << "\033[0m";
+				//envoyer un message au nouvel user s'il a reussi a se co
+				//le message de bienvenue doit etre compose comme ca :
+				//" 001 Welcome to the Internet Relay Network <nick>!<user>@<host>"
+				g_users.at(user_id)->send_to(1, "Bienvenue sur le serveur :).");
 			}
 		}
 	}

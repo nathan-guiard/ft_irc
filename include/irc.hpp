@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/26 17:57:35 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:50:56 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 #include <set>
 #include <vector>
 
+
+#include "numeric_replies.hpp"
+
+#define LOCALHOST       "127.0.0.1"
 #define MAX_CONNECTIONS	16
 #define	READ_SIZE		16
 
