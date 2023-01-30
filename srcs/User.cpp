@@ -57,7 +57,7 @@ User &User::operator = (const User &copy) {
  * @return true 	le nickname a ete change
  * @return false	le nickname n'a pas ete change (erreur)
  */
-bool	User::NICK(const string &new_nick, const user_map &c_map) {
+bool	User::command_NICK(const string &new_nick, const user_map &c_map) {
 	user_map::const_iterator	it = c_map.begin();
 	user_map::const_iterator	ite = c_map.end();
 
@@ -90,7 +90,7 @@ bool	User::NICK(const string &new_nick, const user_map &c_map) {
  * @return true 		le username et le realname on ete enregistres
  * @return false		le username et le realname n'ont pas ete change (erreur)
  */
-bool User::USER(const string &new_user, const string &new_realname) {
+bool User::command_USER(const string &new_user, const string &new_realname) {
 	bool	not_enough_params = new_user.empty() || new_realname.empty();
 	bool	already_registered = !_user.empty() || !_realname.empty();
 

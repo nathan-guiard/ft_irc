@@ -32,8 +32,8 @@ public:
 	User &operator = (const User &copy);
 
 	/*	Commandes relatives exclusivements aux users	*/
-	bool	NICK(const string &new_nick, const user_map &c_map);
-	bool	USER(const string &new_user, const string &new_realname);
+	bool	command_NICK(const string &new_nick, const user_map &c_map);
+	bool	command_USER(const string &new_user, const string &new_realname);
 
 	bool	send_to(int code, string text);
 
