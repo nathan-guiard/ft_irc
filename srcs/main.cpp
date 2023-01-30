@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 15:36:48 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:32:58 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int main(int argc, char **argv) {
 		for (int i = 0; i < event_count; i++) {
 			// cout << "Event happend on fd " << data.events[i].data.fd << endl;
 			
+			
 			int user_id = fd_to_id(data.events[i].data.fd);
 			
 			if (data.events[i].data.fd == data.fd_socket)
@@ -90,7 +91,7 @@ int main(int argc, char **argv) {
 				vector<string>	command = get_command(data.events[i].data.fd);
 				
 				if (command.empty() /* -> si la commande a pas finie d'etre ecrite (CTRL-D)*/) {
-					// Rien faire ?
+					cout << "No command given" << endl;
 				}
 
 				
@@ -98,12 +99,11 @@ int main(int argc, char **argv) {
 				vector<string>::iterator	ite = command.end();
 				vector<string>::iterator	it = command.begin();
 				cout << "\033[0;34m";
-				for (; it != ite; it++)
+				for (; it != ite; it++) {
 					cout << user_id << " < " << *it << endl;
+					command_parsing(*it); }
 				cout << "\033[0m";
 
-		
-				vector<string>	parsed(10);
 				
 
 				// if commande_parsee[0] == NICK
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
 				//le message de bienvenue doit etre compose comme ca :
 				//" 001 Welcome to the Internet Relay Network <nick>!<user>@<host>"
 				
-				g_users.at(user_id)->send_to(RPL_WELCOME(string("test"), string("test"), string("localhost")));
+				// g_users.at(user_id)->send_to(RPL_WELCOME(string("test"), string("test"), string("localhost")));
 			}
 		}
 	}

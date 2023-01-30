@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 15:55:11 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:44:13 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,14 @@ vector<string>	get_command(int fd_user) {
 
 		should_not_push_back = line.empty() || line.size() == 0
 								|| command.find("\r\n") == string::npos;
-		if (should_not_push_back)
+		if (should_not_push_back) {
+			size_t index_nl = command.find("\r\n");
+
+			if (index_nl != string::npos) {
+				command.erase(index_nl, 2);
+			}
 			break;
+		}
 		res.push_back(line);
 		whole_string_splitted = line.empty() || line.size() == 0;
 	}
@@ -69,6 +75,5 @@ static string	read_connection_data(int fd_user) {
 		bytes_read = read(fd_user, buff, READ_SIZE);
 		buff[bytes_read] = 0;
 	}
-	cout << res << endl;
 	return res;
 }

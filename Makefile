@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
+#    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/26 17:33:34 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/30 16:25:55 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC =	$(addsuffix .cpp, 	\
 		user_utils			\
 		get_command			\
 		errorHandler		\
+		command_parsing		\
 		))
 
 SHELL	= /bin/zsh

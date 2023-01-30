@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/27 18:50:56 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:25:14 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ vector<string>		get_command(int fd_user);
 int					fd_to_id(int fd);
 User				*fd_to_user(int fd);
 string				my_itoa(int nb);
+
+/*	Parsing		*/
+vector<string>		command_parsing(const string &str);
 
 /*	Pour itoa	*/
 namespace patch
