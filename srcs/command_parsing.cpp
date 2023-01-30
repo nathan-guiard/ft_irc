@@ -6,32 +6,63 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:04 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 16:31:24 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 18:35:03 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
+vector<string>	split(const string &s);
+
 vector<string>	command_parsing(const string &s) {
+	int i = 0;
+	vector<string>	res = split(s);
+
+	if (res.empty())
+		return res;
+	while (!res[i].empty()) {
+		if (res[i][0] == ':') {
+			cout << "Ancien res[i] -> " << res[i] << endl;
+			for (size_t j = i + 1; j < res.size(); j++) {
+				res[i] += " ";
+				res[i] += res[j];
+				res[j] = string();
+			}
+			res[i].erase(0, 1);
+			break;
+		}
+		i++;
+	}
+	return res;
+}
+
+vector<string>	split(const string &s) {
+	vector<string>	res(10);
 	string			str = string(s);
 	string 			delimiter = " ";
-	size_t 			pos = 0;
 	string 			token;
-	vector<string>	res;
+	size_t 			pos = 0;
 
 	if (s.empty())
 		return res;
+	while ((str.find_last_of(' ') == str.length() - 1))
+		str.erase(str.length() - 1, 1);
+	str.push_back(' ');
+	
 	while ((pos = str.find(delimiter)) != string::npos || token.empty()) {
 		token = str.substr(0, pos);
-		res.push_back(token);
+		if (token.empty())
+			cout << "/!\\" << endl;
+		else
+			cout << token << endl;
+		if (i < 10) {
+			res[i] = token;
+			i++;	
+		}
+		else
+			res.push_back(token);
 		str.erase(0, pos + delimiter.length());
 	}
-	
-	vector<string>::iterator	it = res.begin();
-	vector<string>::iterator	ite = res.end();
-
-	for (; it != ite; it++) {
-		cout << *it << endl;
-	}
+	res.push_back(string());
 	return res;
 }
