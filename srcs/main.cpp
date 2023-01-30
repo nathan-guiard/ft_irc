@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/27 15:00:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:36:48 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,27 @@ int main(int argc, char **argv) {
 					// Rien faire ?
 				}
 
+				
+
 				vector<string>::iterator	ite = command.end();
 				vector<string>::iterator	it = command.begin();
 				cout << "\033[0;34m";
 				for (; it != ite; it++)
 					cout << user_id << " < " << *it << endl;
 				cout << "\033[0m";
+
+		
+				vector<string>	parsed(10);
+				
+
+				// if commande_parsee[0] == NICK
+				// 	g_users.at(user_id)->command_NICK(commande_parsee[1])
+
 				//envoyer un message au nouvel user s'il a reussi a se co
 				//le message de bienvenue doit etre compose comme ca :
 				//" 001 Welcome to the Internet Relay Network <nick>!<user>@<host>"
-				g_users.at(user_id)->send_to(1, "Bienvenue sur le serveur :).");
+				
+				g_users.at(user_id)->send_to(RPL_WELCOME(string("test"), string("test"), string("localhost")));
 			}
 		}
 	}

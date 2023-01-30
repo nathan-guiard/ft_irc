@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numeric_replies.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/30 14:56:07 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:35:32 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "irc.hpp"
 
-# define RPL_WELCOME(nick, user, host) (" : 001 " + nick + ":Welcome to the Internet Relay Network " + nick + "!" + user + "@" + host + "\r\n")
+# define RPL_WELCOME(nick, user, host) ("001 " + nick + " :Welcome to the Internet Relay Network " + nick + "!" + user + "@" + host + "\r\n")
 
 
 
@@ -42,13 +42,13 @@
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
 
-# define ERR_ALREADYREGISTERED() (" : 462 :Unauthorized command (already registered)\r\n")
+# define ERR_ALREADYREGISTERED() ("462 :Unauthorized command (already registered)\r\n")
 
-# define ERR_NEEDMOREPARAMS(command) (" : 461 " + command + " :Not enough parameters\r\n")
+# define ERR_NEEDMOREPARAMS(command) ("461 " + command + " :Not enough parameters\r\n")
 
-# define ERR_PASSWDMISMATCH() (" : 464 :Password incorrect\r\n")
+# define ERR_PASSWDMISMATCH() ("464 :Password incorrect\r\n")
 
-# define ERR_NONICKNAMEGIVEN() (" : 431 :No nickname given\r\n")
+# define ERR_NONICKNAMEGIVEN() ("431 :No nickname given\r\n")
 
 
 /*NICKNAME ERROR*/

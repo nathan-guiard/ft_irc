@@ -32,10 +32,11 @@ public:
 	User &operator = (const User &copy);
 
 	/*	Commandes relatives exclusivements aux users	*/
+	bool	command_PASS(const string &password);
 	bool	command_NICK(const string &new_nick, const user_map &c_map);
 	bool	command_USER(const string &new_user, const string &new_realname);
 
-	bool	send_to(int code, string text);
+	bool	send_to(string text);
 
 	string	get_user()	const;
 	string	get_nick()	const;
@@ -44,6 +45,8 @@ public:
 	int		get_fd()	const;
 
 private:
+	bool	_has_pass, _has_nick, _has_user;
+	bool	_is_identified;
 	int		_id, _fd;
 	string	_nick, _user, _realname;
 };
