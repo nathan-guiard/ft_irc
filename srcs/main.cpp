@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 16:32:58 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:48:56 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,29 @@ int main(int argc, char **argv) {
 				if (command.empty() /* -> si la commande a pas finie d'etre ecrite (CTRL-D)*/) {
 					cout << "No command given" << endl;
 				}
-
 				
-
 				vector<string>::iterator	ite = command.end();
 				vector<string>::iterator	it = command.begin();
+				User						*bob = g_users.at(user_id);
+		
 				cout << "\033[0;34m";
 				for (; it != ite; it++) {
 					cout << user_id << " < " << *it << endl;
-					command_parsing(*it); }
+					vector<string> splitted_command = command_parsing(*it);
+					
+					// execute_command(splitted_command, g_users.at(user_id));
+
+					if (splitted_command[0] == "PASS")
+						bob->command_PASS(splitted_command, password);
+					else if (splitted_command[0] == "NICK")
+						bob->command_NICK(splitted_command);
+					else if (splitted_command[0] == "USER")
+						bob->command_USER(splitted_command);
+					
+					if (bob->identified())
+						bob->send_to(RPL_WELCOME(bob->get_nick(), bob->get_user(), string("localhost")));
+				}
 				cout << "\033[0m";
-
-				
-
-				// if commande_parsee[0] == NICK
-				// 	g_users.at(user_id)->command_NICK(commande_parsee[1])
-
-				//envoyer un message au nouvel user s'il a reussi a se co
-				//le message de bienvenue doit etre compose comme ca :
-				//" 001 Welcome to the Internet Relay Network <nick>!<user>@<host>"
-				
-				// g_users.at(user_id)->send_to(RPL_WELCOME(string("test"), string("test"), string("localhost")));
 			}
 		}
 	}

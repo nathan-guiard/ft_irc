@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:04 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 18:35:03 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:54:16 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ vector<string>	command_parsing(const string &s) {
 		}
 		i++;
 	}
+	transform(res[0].begin(), res[0].end(), res[0].begin(), ::toupper);
 	return res;
 }
 
@@ -42,6 +43,7 @@ vector<string>	split(const string &s) {
 	string 			delimiter = " ";
 	string 			token;
 	size_t 			pos = 0;
+	int				i = 0;
 
 	if (s.empty())
 		return res;

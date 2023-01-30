@@ -32,23 +32,24 @@ public:
 	User &operator = (const User &copy);
 
 	/*	Commandes relatives exclusivements aux users	*/
-	bool	command_PASS(const string &password);
-	bool	command_NICK(const string &new_nick, const user_map &c_map);
-	bool	command_USER(const string &new_user, const string &new_realname);
+	bool	command_PASS(vector<string> const& str, string const& password);
+	bool	command_NICK(vector<string> const& tab);
+	bool	command_USER(vector<string> const& tab);
 
 	bool	send_to(string text);
 
-	string	get_user()	const;
-	string	get_nick()	const;
-	string	get_real()	const;
-	int		get_id()	const;
-	int		get_fd()	const;
+	string	get_user()		const;
+	string	get_nick()		const;
+	string	get_real()		const;
+	int		get_id()		const;
+	int		get_fd()		const;
+	bool	identified()	const;
 
 private:
-	bool	_has_pass, _has_nick, _has_user;
-	bool	_is_identified;
 	int		_id, _fd;
 	string	_nick, _user, _realname;
+	bool	_has_pass, _has_nick, _has_user;
+	bool	_is_identified;
 };
 
 #endif

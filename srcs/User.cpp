@@ -12,9 +12,12 @@
 
 #include "User.hpp"
 
-User::User(): _id(-1), _fd(-1), _nick(), _user(), _realname() {}
+User::User(): _id(-1), _fd(-1), _nick(), _user(), _realname() {
+	cerr << "Don't use this constructor" << endl;
+}
 
-User::User(int id, int fd): _id(id), _fd(fd), _nick(), _user(), _realname() {}
+User::User(int id, int fd): _id(id), _fd(fd), _nick(), _user(), _realname(),
+	_has_pass(false), _has_nick(false), _has_user(false), _is_identified(false) {}
 
 User::User(const User &copy) {
 	*this = copy;
@@ -57,12 +60,16 @@ User &User::operator = (const User &copy) {
  * @return true 	le nickname a ete change
  * @return false	le nickname n'a pas ete change (erreur)
  */
-bool	User::command_NICK(const string &new_nick, const user_map &c_map) {
-	user_map::const_iterator	it = c_map.begin();
-	user_map::const_iterator	ite = c_map.end();
+bool	User::command_NICK(vector<string> const& tab)
+{
+	user_map::const_iterator	it = g_users.begin();
+	user_map::const_iterator	ite = g_users.end();
 
-	if (new_nick.empty()) {
-		send_to(ERR_NONICKNAMEGIVEN());
+	if (!_has_pass)
+		return false;
+
+	if (tab[1].empty()) {
+		send_to(ERR_NONICKNAMEGIVEN);
 		return false;
 	}
 
@@ -70,43 +77,54 @@ bool	User::command_NICK(const string &new_nick, const user_map &c_map) {
 	// sinon ERR_ERRONEUSNICKNAME et return false
 
 	for (; it != ite; it++) {
-		bool	is_the_same = (*it).second->get_nick() == new_nick;
+		bool	is_the_same = (*it).second->get_nick() == tab[1];
 		bool	is_not_me	= (*it).second->get_nick() != _nick;
 
 		if (is_the_same && is_not_me) {
-			// Execute l'erreur ERR_NICKNAMEINUSE
+			send_to(ERR_NICKNAMEISUSE(tab[1]));
 			return false;
 		}
 	}
-	_nick = new_nick;
+	_nick = tab[1];
+	_has_nick = true;
+	if (_has_user && _has_nick)
+		_is_identified = true;
 	return true;
 }
 
 /**
  * @brief Execute la commande USER
  * 
- * @param new_user		nouveau username
+ * @param tab[1]		nouveau username
  * @param new_realname 	nouveau realname
  * @return true 		le username et le realname on ete enregistres
  * @return false		le username et le realname n'ont pas ete change (erreur)
  */
-bool User::command_USER(const string &new_user, const string &new_realname) {
-	bool	not_enough_params = new_user.empty() || new_realname.empty();
-	bool	already_registered = !_user.empty() || !_realname.empty();
+bool User::command_USER(vector<string> const& tab)
+{
+	bool	not_enough_params = tab[4].empty();
+	bool	already_registered = _has_user;
+
+	if (!_has_pass) {
+		return false;
+	}
 
 	if (not_enough_params) {
-		// Execute l'erreur ERR_NEEDMOREPARAMS
+		send_to(ERR_NEEDMOREPARAMS(string("USER")));
 		return false;
 	}
 
 	// il faut check si on peut avoir des noms vides
 	if (already_registered) {
-		// Execute ERR_ALREADYREGISTERED
+		send_to(ERR_ALREADYREGISTERED);
 		return false;
 	}
 
-	_user = new_user;
-	_realname = new_realname;
+	_user = tab[1];
+	_realname = tab[4];
+	_has_user = true;
+	if (_has_user && _has_nick)
+		_is_identified = true;
 	return true;
 }
 
@@ -118,3 +136,27 @@ bool	User::send_to(string text) {
 	cout << "\033[32m" << _id << " > " << text << "\033[0m" << endl;
 	return true;
 }
+
+bool	User::command_PASS(vector<string> const& tab, string const& password)
+{
+	if (_has_pass)
+	{
+		send_to(ERR_ALREADYREGISTERED);
+		return true;
+	}
+	if (tab[1] == password)
+		_has_pass = true;
+	else
+	{
+		send_to(ERR_PASSWDMISMATCH);
+		return false;
+	}
+	return true;
+}
+
+bool	User::identified()	const {
+	return _is_identified;
+}
+
+//check pass
+//check nick

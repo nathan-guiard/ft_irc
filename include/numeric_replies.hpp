@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/30 16:17:40 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:29:51 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
 
-# define ERR_ALREADYREGISTERED() ("462 :Unauthorized command (already registered)\r\n")
+# define ERR_ALREADYREGISTERED "462 :Unauthorized command (already registered)\r\n"
 
 # define ERR_NEEDMOREPARAMS(command) ("461 " + command + " :Not enough parameters\r\n")
 
-# define ERR_PASSWDMISMATCH() ("464 :Password incorrect\r\n")
+# define ERR_PASSWDMISMATCH "464 :Password incorrect\r\n"
 
-# define ERR_NONICKNAMEGIVEN() ("431 :No nickname given\r\n")
+# define ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n"
 
 
 /*NICKNAME ERROR*/
-# define ERR_NICKNAMEISUSE(nick) ("433 :Nickname is already in use\r\n")
+# define ERR_NICKNAMEISUSE(nick) ("433 " + nick + " :Nickname is already in use\r\n")
 
 # define ERR_NOSUCHNICK(nick, user, host, invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
 
