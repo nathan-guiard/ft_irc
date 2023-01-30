@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/27 23:38:09 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:56:07 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 /*NICKNAME ERROR*/
 # define ERR_NICKNAMEISUSE(nick) ("433 :Nickname is already in use\r\n")
 
-# define ERR_NOSUCHNICK(nick, user, host, invitenick) ("401 " + nick + "!" + user + "@" + host + " " + invitenick + " :No such nick/channel\r\n")
+# define ERR_NOSUCHNICK(nick, user, host, invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
 
 /*CHANNELS*/
 # define ERR_BADCHANMASK(channel) ("476" + channel = ":Bad Channel Mask\r\n")
