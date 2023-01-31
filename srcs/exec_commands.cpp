@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 13:12:10 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:25:53 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	exec_commands(int user_id, int user_fd,
 	vector<string>	command = get_command(user_fd);
 	
 	if (command.empty()) {
-		cout << "No command given" << endl;
 		return;
 	}
 	

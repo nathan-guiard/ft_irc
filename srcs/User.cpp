@@ -53,12 +53,11 @@ User &User::operator = (const User &copy) {
 }
 
 /**
- * @brief Execute la commande NICK
+ * @brief	Execute la commande NICK
  * 
- * @param new_nick	nouveau nickname
- * @param c_map 	set de tous les users deja existants
- * @return true 	le nickname a ete change
- * @return false	le nickname n'a pas ete change (erreur)
+ * @param	tab		le vecteur de paramettres de la commande
+ * @return	true 	le nickname a ete change
+ * @return	false	le nickname n'a pas ete change (erreur)
  */
 bool	User::command_NICK(vector<string> const& tab)
 {
@@ -96,12 +95,11 @@ bool	User::command_NICK(vector<string> const& tab)
 }
 
 /**
- * @brief Execute la commande USER
+ * @brief	Execute la commande USER
  * 
- * @param tab[1]		nouveau username
- * @param new_realname 	nouveau realname
- * @return true 		le username et le realname on ete enregistres
- * @return false		le username et le realname n'ont pas ete change (erreur)
+ * @param	tab		le vecteur de paramettres de la commande
+ * @return	true 	le username et le realname on ete enregistres
+ * @return	false	le username et le realname n'ont pas ete change (erreur)
  */
 bool User::command_USER(vector<string> const& tab)
 {
@@ -143,6 +141,14 @@ bool	User::send_to(string text) {
 	return true;
 }
 
+/**
+ * @brief	Execute la commande PASS
+ * 
+ * @param tab		Le vecteur d'arguments de la commande
+ * @param password	Le mot de passe du serveur
+ * @return true		L'utilisateur ne doit pas etre deconnecte
+ * @return false	L'utilisateur doit etre deconnecte (mauvais password)
+ */
 bool	User::command_PASS(vector<string> const& tab, string const& password)
 {
 	if (_has_pass)
@@ -163,6 +169,3 @@ bool	User::command_PASS(vector<string> const& tab, string const& password)
 bool	User::identified()	const {
 	return _is_identified;
 }
-
-//check pass
-//check nick

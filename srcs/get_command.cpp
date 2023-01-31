@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 16:44:13 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:26:05 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static string	read_connection_data(int fd_user);
 
 /**
  * @brief 	get every command that the user sended.
- * 			stocks the command if no \n were given
+ * 			stocks the command if no \r\n were given
  * 			(like get_next_line)
  * 
  * @param	fd_user fd of the given user	
