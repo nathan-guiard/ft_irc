@@ -75,6 +75,11 @@ bool	User::command_NICK(vector<string> const& tab)
 		return false;
 	}
 
+	if(tab[1][0] == '#') {
+		send_to(ERR_ERRONEUSNICKNAME(tab[1]));
+		return false;
+	}
+
 	// Check si la string new_nick est bien formattee
 	// sinon ERR_ERRONEUSNICKNAME et return false
 
@@ -186,13 +191,20 @@ bool	User::command_JOIN(vector<string> const &tab) {
 		return false;
 	}
 
+	if (tab[1][0] != '#') {
+		send_to(ERR_BADCHANMASK(tab[1]));
+		return false;
+	}
+
 	try {
 		Channel *chan = g_channels.at(tab[1]);
+		cout << "Pas de nouveaux chan" << endl;
 		chan->add_user(this, false);
 	}
 	catch (exception const &e) {
 		Channel *new_chan = new Channel(tab[1]);
 		g_channels.insert(make_pair<string, Channel *>(tab[1], new_chan));
+		cout << "creation nouveaux chan" << endl;
 		new_chan->add_user(this, true);
 	}
 	return true;
@@ -208,5 +220,68 @@ bool	User::send_to(string text) {
 		return false;
 
 	cout << "\033[32m" << _id << " > " << text << "\033[0m";
+	return true;
+}
+
+bool	User::command_PRIVMSG(vector<string> const& tab) {
+	if (!_is_identified)
+		return false;
+	
+	if (tab[2].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("PRIVMSG")));
+		return false;
+	}
+
+	if (tab[1][0] == '#')
+	{
+		try {
+			Channel *chan = g_channels.at(tab[1]);
+			string s = tab[2];
+			for (size_t j = 3; j < tab.size(); j++) {
+				if (!tab[j].empty())
+				{
+					s += " ";
+					s += tab[j];
+				}
+			}
+			cout << chan->get_name() << " : " << s << endl;
+			chan->broadcast(PRIVMSG(_nick, _user, string("localhost"), 
+				tab[1], s), this);
+		}
+		catch (exception const& e)
+		{
+			send_to(ERR_NOSUCHNICK(_nick, _user, string("localhost"), tab[1]));
+			return false;
+		}
+	}
+	else {
+		try {
+			user_map::iterator	it = g_users.begin();
+			user_map::iterator	ite = g_users.end();
+			int					user_id;
+
+			for (; it != ite; it++) {
+				if ((*it).second->get_nick() == tab[1])
+					user_id = (*it).second->get_id();
+			}
+			User *user = g_users.at(user_id);
+			string s = tab[2];
+			for (size_t j = 3; j < tab.size(); j++) {
+				if (!tab[j].empty())
+				{
+					s += " ";
+					s += tab[j];
+				}
+			}
+			user->send_to(PRIVMSG(_nick, _user, string("localhost"), 
+				tab[1], s));
+		}
+		catch (exception const& e)
+		{
+			send_to(ERR_NOSUCHNICK(_nick, _user, string("localhost"), tab[1]));
+			return false;
+		}
+
+	}
 	return true;
 }

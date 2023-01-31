@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/31 16:22:05 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 17:10:18 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define JOIN(nick, user, host, chan) (":" + nick + "!" + user + "@" + host  + " JOIN " + chan + "\r\n")
 //message pour tous les gens sur le channel ":<nick persone qui a join>!<user>@<host> JOIN <channel>"
 
-# define PRIVMSG(dest, str) ("PRIVMSG " + dest + " :" + str + "\r\n") //dest cest le nom du channel
+# define PRIVMSG(nick, user, host, dest, str) (":" + nick + "!" + user + "@" + host + " PRIVMSG " + dest + " :" + str + "\r\n") //dest cest le nom du channel
 //pour envoyer 
 
 # define NOTICE(chan, str) ("NOTICE " + chan + " :" + str + "\r\n")
@@ -49,7 +49,7 @@
 
 # define ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n"
 
-
+# define ERR_ERRONEUSNICKNAME(nick) ("432 " + nick + " :Erroneous nickname\r\n")
 /*NICKNAME ERROR*/
 # define ERR_NICKNAMEISUSE(nick) ("433 NICK :" + nick + "\r\n")
 

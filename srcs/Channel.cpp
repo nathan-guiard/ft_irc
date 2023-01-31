@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 16:12:37 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 18:06:16 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,39 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 	user_set::iterator		ite = _users.end();
 	pair<User *, bool>		user = make_pair(new_user, is_op);
 
-	if (_users.find(user) == ite) {
+
+	cout << "entree dans adduser " << new_user->get_nick() << endl;
+
+	bool is_in_chan = false;
+
+	for (; it != ite; it++) {
+		if ((*it).first == new_user)
+			is_in_chan = true;
+	}
+	it = _users.begin();
+	ite = _users.end();
+	if (!is_in_chan) {
+		cout << "entree dans le if" << endl;
 		_users.insert(user);
 		for (; it != ite; it++) {
 			(*it).first->send_to(JOIN(user.first->get_nick(), user.first->get_user(),
 							string("localhost"), _name));
 		}
 
-		user.first->send_to(RPL_NAMREPLY(user.first->get_nick(),
-							user.first->get_user(),
-							string("localhost"), _name));
+		
 		it = _users.begin();
 		ite = _users.end();
+
+		string sending;
+	
 		for (; it != ite; it++) {
 			user_set::iterator	it2 = it;
 			it2++;
 			if ((*it).second && it2 == ite) {
-				new_user->send_to(string("@") + (*it).first->get_nick()
-					+ string("\r\n"));
-				
+				sending += string("@") + (*it).first->get_nick();
 			}
 			else if ((*it).second) {
-				new_user->send_to(string("@") + (*it).first->get_nick()
-					+ string(" "));
+				sending += string("@") + (*it).first->get_nick() + string(" ");
 			}
 		}
 		it = _users.begin();
@@ -69,13 +79,15 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 			user_set::iterator	it2 = it;
 			it2++;
 			if (!(*it).second && it2 == ite) {
-				new_user->send_to((*it).first->get_nick() + string("\r\n"));
-				
+				sending += (*it).first->get_nick();
 			}
 			else if (!(*it).second) {
-				new_user->send_to((*it).first->get_nick() + string(" "));
+				sending += (*it).first->get_nick() + string(" ");
 			}
 		}
+		user.first->send_to(RPL_NAMREPLY(user.first->get_nick(),
+							user.first->get_user(),
+							string("localhost"), _name) + sending + "\r\n");
 		
 		user.first->send_to(RPL_ENDOFNAMES(user.first->get_nick(),
 							user.first->get_user(),
@@ -83,4 +95,16 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 		return true;
 	}
 	return false;
+}
+
+bool	Channel::broadcast(string const& str, User *excluded)
+{
+	user_set::iterator it = _users.begin();
+	user_set::iterator ite = _users.end();
+
+	for(; it != ite; it++) {
+		if ((*it).first != excluded)
+			(*it).first->send_to(str);
+	}
+	return true;
 }

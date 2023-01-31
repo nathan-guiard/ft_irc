@@ -37,6 +37,7 @@ public:
 	bool	command_USER(vector<string> const& tab);
 	bool	command_PING(vector<string> const& tab);
 	bool	command_JOIN(vector<string> const& tab);
+	bool	command_PRIVMSG(vector<string> const& tab);
 
 	bool	send_to(string text);
 
