@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 13:22:09 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:13:59 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int			g_fd_epoll;
 int			g_fd_socket;
 vector<int>	g_open_fd;
 user_map	g_users;
+channel_map	g_channels;
 
 bool args_parsing(int argc, char **argv, int *port, string *password) {
 	if (argc != 3) {
@@ -36,22 +37,7 @@ bool args_parsing(int argc, char **argv, int *port, string *password) {
 
 void signal_handling(int signum) {
 	(void)signum;
-	vector<int>::iterator	it = g_open_fd.begin();
-	vector<int>::iterator	ite = g_open_fd.end();
-	user_map::iterator		it_map = g_users.begin();
-	user_map::iterator		ite_map = g_users.end();
-
-	close(g_fd_epoll);
-	close(g_fd_socket);
-	for (; it != ite; it++) {
-		close(*it);
-	}
-	for (; it_map != ite_map; it_map++) {
-		delete (*it_map).second;
-	}
-
-	cout << "Au revoir <3" << endl;
-	exit(0);
+	closeAndFreeAll("", 0);
 }
 
 int main(int argc, char **argv) {

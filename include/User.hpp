@@ -36,6 +36,7 @@ public:
 	bool	command_NICK(vector<string> const& tab);
 	bool	command_USER(vector<string> const& tab);
 	bool	command_PING(vector<string> const& tab);
+	bool	command_JOIN(vector<string> const& tab);
 
 	bool	send_to(string text);
 
@@ -47,10 +48,11 @@ public:
 	bool	identified()	const;
 
 private:
-	int		_id, _fd;
-	string	_nick, _user, _realname;
-	bool	_has_pass, _has_nick, _has_user;
-	bool	_is_identified;
+	int				_id, _fd;
+	string			_nick, _user, _realname;
+	bool			_has_pass, _has_nick, _has_user;
+	bool			_is_identified;
+	set<Channel *>	_channels;
 };
 
 #endif

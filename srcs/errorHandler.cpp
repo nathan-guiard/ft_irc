@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errorHandler.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:24:48 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/26 18:16:14 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/31 15:12:57 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,21 @@ void	closeAndFreeAll(const char *message, int errCode)
 {
 	vector<int>::iterator	it = g_open_fd.begin();
 	vector<int>::iterator	ite = g_open_fd.end();
-	user_map::iterator		it_map = g_users.begin();
-	user_map::iterator		ite_map = g_users.end();
+	user_map::iterator		it_user = g_users.begin();
+	user_map::iterator		ite_user = g_users.end();
+	channel_map::iterator	it_chan = g_channels.begin();
+	channel_map::iterator	ite_chan = g_channels.end();
 
 	close(g_fd_epoll);
 	close(g_fd_socket);
 	for (; it != ite; it++) {
 		close(*it);
 	}
-	for (; it_map != ite_map; it_map++) {
-		delete (*it_map).second;
+	for (; it_user != ite_user; it_user++) {
+		delete (*it_user).second;
+	}
+	for (; it_chan != ite_chan; it_chan++) {
+		delete (*it_chan).second;
 	}
 	perror(message);
 	cout << "Au revoir <3" << endl;

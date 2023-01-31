@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/31 12:56:15 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/31 15:15:58 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ SRC =	$(addsuffix .cpp, 	\
 		$(addprefix srcs/,	\
 		main 				\
 		User				\
+		Channel				\
 		connections			\
 		user_utils			\
 		get_command			\

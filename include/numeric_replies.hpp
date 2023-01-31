@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/30 19:29:51 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:22:05 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 
 
 /*NICKNAME ERROR*/
-# define ERR_NICKNAMEISUSE(nick) ("433 " + nick + " :Nickname is already in use\r\n")
+# define ERR_NICKNAMEISUSE(nick) ("433 NICK :" + nick + "\r\n")
 
 # define ERR_NOSUCHNICK(nick, user, host, invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
 
@@ -64,10 +64,10 @@
 
 # define ERR_CHANNELISFULL(channel) ("471 " + channel + " :Cannot join channel (+l)\r\n")
 
-# define RPL_NAMREPLY(nick, user, host, channel) ("353 " + nick + "!" + user + "@" + host + " = " + channel + " :@" + nick + "\r\n")
+# define RPL_NAMREPLY(nick, user, host, channel) ("353 " + nick + "!" + user + "@" + host + " = " + channel + " :")
 //2e message standard recu quand on rejoint un channel
 
-# define RPL_ENDOFNAMES(channel) ("366 " + nick + "!" + user + "@" + host + " " + channel + " :End of NAMES list\r\n")
+# define RPL_ENDOFNAMES(nick, user, host, channel) ("366 " + nick + "!" + user + "@" + host + " " + channel + " :End of NAMES list\r\n")
 //3e message standard qu on recoit quand on rejoint un channel
 
 # define RPL_INVITING(nick, user, host, invitenick, channel) ("341 " + nick + "!" + user + "@" + host + " " + invitenick + " " + channel)

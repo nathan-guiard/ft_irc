@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 13:13:08 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:14:13 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@
 using namespace std;
 
 class User;
+class Channel;
 
-typedef map<int, User *>	user_map;
+typedef map<int, User *>		user_map;
+typedef map<string, Channel *>	channel_map;
 
 typedef struct con_data {
 	int					fd_epoll;
@@ -54,12 +56,14 @@ typedef struct con_data {
 	struct epoll_event	events[MAX_CONNECTIONS];
 }	con_data;
 
+#include "Channel.hpp"
 #include "User.hpp"
 
 extern int			g_fd_epoll;
 extern int			g_fd_socket;
 extern vector<int>	g_open_fd;
 extern user_map		g_users;
+extern channel_map	g_channels;
 
 /*	Connections	*/
 bool				new_connection(int fd_epoll, int fd_socket);

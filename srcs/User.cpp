@@ -12,12 +12,13 @@
 
 #include "User.hpp"
 
-User::User(): _id(-1), _fd(-1), _nick(), _user(), _realname() {
+User::User(): _id(-1), _fd(-1), _nick(), _user(), _realname(), _channels() {
 	cerr << "Don't use this constructor" << endl;
 }
 
 User::User(int id, int fd): _id(id), _fd(fd), _nick(), _user(), _realname(),
-	_has_pass(false), _has_nick(false), _has_user(false), _is_identified(false) {}
+	_has_pass(false), _has_nick(false), _has_user(false), _is_identified(false),
+	_channels() {}
 
 User::User(const User &copy) {
 	*this = copy;
@@ -52,6 +53,8 @@ User &User::operator = (const User &copy) {
 	return *this;
 }
 
+// a faire -> renvoyer :old NICK new a tous les users de tous les
+//				channels ou il est
 /**
  * @brief	Execute la commande NICK
  * 
@@ -132,14 +135,6 @@ bool User::command_USER(vector<string> const& tab)
 	return true;
 }
 
-bool	User::send_to(string text) {
-
-	if (write(_fd, text.c_str(), text.length()) < 1)
-		return false;
-
-	cout << "\033[32m" << _id << " > " << text << "\033[0m" << endl;
-	return true;
-}
 
 /**
  * @brief	Execute la commande PASS
@@ -182,6 +177,36 @@ bool	User::command_PING(vector<string> const &tab) {
 	return true;
 }
 
+bool	User::command_JOIN(vector<string> const &tab) {
+	if (!_is_identified)
+		return false;
+	
+	if (tab[1].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("JOIN")));
+		return false;
+	}
+
+	try {
+		Channel *chan = g_channels.at(tab[1]);
+		chan->add_user(this, false);
+	}
+	catch (exception const &e) {
+		Channel *new_chan = new Channel(tab[1]);
+		g_channels.insert(make_pair<string, Channel *>(tab[1], new_chan));
+		new_chan->add_user(this, true);
+	}
+	return true;
+}
+
 bool	User::identified()	const {
 	return _is_identified;
+}
+
+bool	User::send_to(string text) {
+
+	if (write(_fd, text.c_str(), text.length()) < 1)
+		return false;
+
+	cout << "\033[32m" << _id << " > " << text << "\033[0m";
+	return true;
 }

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/24 18:18:00 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:12:37 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Channel::Channel() { cerr << "USING THE WRONG CHANNEL CONSTRUCTOR" << endl; }
 
-Channel::Channel(string name, int id): _name(name) {}
+Channel::Channel(string name): _name(name) {}
 
 Channel::Channel(const Channel &copy) {
 	*this = copy;
@@ -25,64 +25,62 @@ Channel	&Channel::operator = (const Channel &copy) {
 	return *this;
 }
 
-Channel::~Channel() {}
+Channel::~Channel() {
+	cout << "Deleting channel " << _name << endl;
+}
 
 string	Channel::get_name()	const {
 	return _name;
 }
 
-bool	Channel::add_user(int id) {
-	if (_users.insert(id).second) {
-		cout << "User " << id << " added to " << _name << endl;
+bool	Channel::add_user(User *new_user, bool is_op) {
+	user_set::iterator		it = _users.begin();
+	user_set::iterator		ite = _users.end();
+	pair<User *, bool>		user = make_pair(new_user, is_op);
+
+	if (_users.find(user) == ite) {
+		_users.insert(user);
+		for (; it != ite; it++) {
+			(*it).first->send_to(JOIN(user.first->get_nick(), user.first->get_user(),
+							string("localhost"), _name));
+		}
+
+		user.first->send_to(RPL_NAMREPLY(user.first->get_nick(),
+							user.first->get_user(),
+							string("localhost"), _name));
+		it = _users.begin();
+		ite = _users.end();
+		for (; it != ite; it++) {
+			user_set::iterator	it2 = it;
+			it2++;
+			if ((*it).second && it2 == ite) {
+				new_user->send_to(string("@") + (*it).first->get_nick()
+					+ string("\r\n"));
+				
+			}
+			else if ((*it).second) {
+				new_user->send_to(string("@") + (*it).first->get_nick()
+					+ string(" "));
+			}
+		}
+		it = _users.begin();
+		ite = _users.end();
+		for (; it != ite; it++) {
+			user_set::iterator	it2 = it;
+			it2++;
+			if (!(*it).second && it2 == ite) {
+				new_user->send_to((*it).first->get_nick() + string("\r\n"));
+				
+			}
+			else if (!(*it).second) {
+				new_user->send_to((*it).first->get_nick() + string(" "));
+			}
+		}
+		
+		user.first->send_to(RPL_ENDOFNAMES(user.first->get_nick(),
+							user.first->get_user(),
+							string("localhost"), _name));
 		return true;
 	}
-	else
-		cout << "User already in " << _name << endl;
 	return false;
-}
-
-/**
- * @brief	Puts a new operator on the channel.
- * 
- * @param caller	The id of the user that called the OPER
- * @param target	The target oth the OPER call
- * @return true 	The target has been added to the operators
- * @return false	The target has not been added to the operators
- */
-/* bool	Channel::put_op(int caller, int target) {
-	bool	caller_not_operator = _operators.find(caller) == _operators.end();
-	bool	target_not_in_channel = _users.find(target) == _users.end();
-
-	if (caller_not_operator) {
-		// Code d'erreur?
-		return false;
-	}
-	if (target_not_in_channel) {
-		// Code d'erreur?
-		return false;
-	}
-	_operators.insert(target);
-	_users.erase(target);
-	return true;
-} */
-
-
-/**
- * @brief			Puts a new operator no matter what
- * 
- * @param target	The User.ID of the new operator
- * @return true		No problems, the operator has been added
- * @return false	A 'Warning' occured
- */
-bool	Channel::sudo_put_op(int target) {
-	bool	is_already_op = _operators.find(target) != _operators.end();
-	bool	is_not_a_current_user = _users.find(target) == _users.end();
-
-	if (is_already_op) {
-		cerr << "Warning: user " << target << " is already in operators list." << endl;
-	}
-	else if (is_not_a_current_user) {
-		cerr << "Warning: user " << target << " is not a current user." << endl;
-	}
-	
 }
