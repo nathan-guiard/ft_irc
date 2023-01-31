@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:04 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/30 19:54:16 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 12:49:35 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ vector<string>	split(const string &s) {
 	
 	while ((pos = str.find(delimiter)) != string::npos || token.empty()) {
 		token = str.substr(0, pos);
-		if (token.empty())
-			cout << "/!\\" << endl;
-		else
-			cout << token << endl;
 		if (i < 10) {
 			res[i] = token;
 			i++;	

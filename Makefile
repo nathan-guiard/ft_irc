@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/01/30 17:16:03 by nguiard          ###   ########.fr        #
+#    Updated: 2023/01/31 12:56:15 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =	$(addsuffix .cpp, 	\
 		get_command			\
 		errorHandler		\
 		command_parsing		\
+		exec_commands		\
 		))
 
 SHELL	= /bin/zsh

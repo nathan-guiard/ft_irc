@@ -87,8 +87,11 @@ bool	User::command_NICK(vector<string> const& tab)
 	}
 	_nick = tab[1];
 	_has_nick = true;
-	if (_has_user && _has_nick)
+	if (_has_user && _has_nick && !_is_identified)
+	{
 		_is_identified = true;
+		send_to(RPL_WELCOME(_nick, _user, string("localhost")));
+	}
 	return true;
 }
 
@@ -123,8 +126,11 @@ bool User::command_USER(vector<string> const& tab)
 	_user = tab[1];
 	_realname = tab[4];
 	_has_user = true;
-	if (_has_user && _has_nick)
+	if (_has_user && _has_nick && !_is_identified)
+	{
 		_is_identified = true;
+		send_to(RPL_WELCOME(_nick, _user, string("localhost")));
+	}
 	return true;
 }
 

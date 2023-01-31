@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_commands.cpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
+/*   Updated: 2023/01/31 13:00:13 by nguiard          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "irc.hpp"
+
+void	exec_commands(int user_id, int user_fd, const string &password) {
+	vector<string>	command = get_command(user_fd);
+	
+	if (command.empty()) {
+		cout << "No command given" << endl;
+		return;
+	}
+	
+	vector<string>::iterator	ite = command.end();
+	vector<string>::iterator	it = command.begin();
+	User						*bob = g_users.at(user_id);
+
+	cout << "\033[0;34m";
+	for (; it != ite; it++) {
+		cout << user_id << " < " << *it << endl;
+		vector<string> splitted_command = command_parsing(*it);
+
+		if (splitted_command[0] == "PASS")
+			bob->command_PASS(splitted_command, password);
+		else if (splitted_command[0] == "NICK")
+			bob->command_NICK(splitted_command);
+		else if (splitted_command[0] == "USER")
+			bob->command_USER(splitted_command);
+	}
+	cout << "\033[0m";
+}
