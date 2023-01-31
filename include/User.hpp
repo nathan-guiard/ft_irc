@@ -35,6 +35,7 @@ public:
 	bool	command_PASS(vector<string> const& str, string const& password);
 	bool	command_NICK(vector<string> const& tab);
 	bool	command_USER(vector<string> const& tab);
+	bool	command_PING(vector<string> const& tab);
 
 	bool	send_to(string text);
 

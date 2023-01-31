@@ -166,6 +166,22 @@ bool	User::command_PASS(vector<string> const& tab, string const& password)
 	return true;
 }
 
+/**
+ * @brief	Execute la commande PING
+ * 
+ * @param	tab		Le vecteur d'arguments de la commande
+ * @return	true	Le pong a ete envoye
+ * @return	false	Le pong n'as pas ete envoye (erreur)
+ */
+bool	User::command_PING(vector<string> const &tab) {
+	if (tab[1].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("PING")));
+		return false;
+	}
+	send_to(string("PONG :") + tab[1] + string("\r\n"));
+	return true;
+}
+
 bool	User::identified()	const {
 	return _is_identified;
 }
