@@ -6,13 +6,14 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 13:00:13 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:12:10 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-void	exec_commands(int user_id, int user_fd, const string &password) {
+void	exec_commands(int user_id, int user_fd,
+						const string &password, con_data &data) {
 	vector<string>	command = get_command(user_fd);
 	
 	if (command.empty()) {
@@ -30,7 +31,10 @@ void	exec_commands(int user_id, int user_fd, const string &password) {
 		vector<string> splitted_command = command_parsing(*it);
 
 		if (splitted_command[0] == "PASS")
-			bob->command_PASS(splitted_command, password);
+		{
+			if (bob->command_PASS(splitted_command, password) == false)
+				deconnection(data, user_fd);
+		}
 		else if (splitted_command[0] == "NICK")
 			bob->command_NICK(splitted_command);
 		else if (splitted_command[0] == "USER")

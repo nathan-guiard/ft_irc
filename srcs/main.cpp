@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 12:55:36 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:12:45 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 				deconnection(data, data.events[i].data.fd);
 			
 			else if (user_id != -1) { // A changer, c'est juste pour check pour l'instant
-				exec_commands(user_id, data.events[i].data.fd, password);
+				exec_commands(user_id, data.events[i].data.fd, password, data);
 			}
 		}
 	}

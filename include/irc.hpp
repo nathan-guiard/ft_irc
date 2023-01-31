@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 12:55:08 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:13:08 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ string				my_itoa(int nb);
 vector<string>		command_parsing(const string &str);
 
 /*	Commands	*/
-void	exec_commands(int user_id, int user_fd, const string &password);
+void	exec_commands(int user_id, int user_fd,
+						const string &password, con_data &data);
 
 /*	Pour itoa	*/
 namespace patch
