@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connections.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/27 14:56:34 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:00:32 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ bool	deconnection(con_data &data, int fd) {
 		return false;
 	}
 	g_users.erase(id_of_disconnected);
+
 	delete disconnected_User;
 	
 	vector<int>::iterator	it = g_open_fd.begin();
@@ -98,4 +99,26 @@ con_data	init_connection_data(int port) {
     //c'est-à-dire en tant que socket qui sera utilisé pour accepter
 	//requêtes de connexion en utilisant accept(2) 
 	return data;
+}
+
+void	check_dead_channels() {
+	channel_map::iterator			it = g_channels.begin();
+	channel_map::iterator			ite = g_channels.end();
+	Channel							*current;
+	vector<channel_map::iterator>	vec;
+
+	for (; it != ite; it++) {
+		current = (*it).second;
+		if (current && current->is_empty()) {
+			vec.push_back(it);
+		}
+	}
+
+	size_t size = vec.size();
+
+	for (size_t i = 0; i < size; i++) {
+		current = (*(vec[i])).second;
+		g_channels.erase(vec[i]);
+		delete current;
+	}
 }

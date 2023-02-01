@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 17:30:48 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 17:19:23 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,16 @@ void	exec_commands(int user_id, int user_fd,
 			bob->command_PING(splitted_command);
 		else if (splitted_command[0] == "JOIN")
 			bob->command_JOIN(splitted_command);
+		else if (splitted_command[0] == "PART")
+			bob->command_PART(splitted_command);
 		else if (splitted_command[0] == "PRIVMSG")
 			bob->command_PRIVMSG(splitted_command);
+		else if (splitted_command[0] == "QUIT")
+		{
+			if (bob->command_QUIT(splitted_command) == true)
+				deconnection(data, user_fd);
+		}
+		check_dead_channels();
 	}
 	cout << "\033[0m";
 }

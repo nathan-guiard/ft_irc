@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:24:48 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/31 15:12:57 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 18:52:48 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	closeAndFreeAll(const char *message, int errCode)
 	for (; it_chan != ite_chan; it_chan++) {
 		delete (*it_chan).second;
 	}
-	perror(message);
+	if (string(message) == "")
+		perror(message);
 	cout << "Au revoir <3" << endl;
 	exit(errCode);
 }

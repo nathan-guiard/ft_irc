@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/31 17:10:18 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 18:00:22 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 
 # define RPL_WELCOME(nick, user, host) ("001 " + nick + " :Welcome to the Internet Relay Network " + nick + "!" + user + "@" + host + "\r\n")
 
-
 # define PING(localhost) ("PING " + localhost + "\r\n")
 
 # define PONG(localhost) ("PONG " + localhost + "\r\n")
 
-# define QUIT(nick, user, host, msg) (nick + "!" + user + "@" + host  + " QUIT :" + msg + "\r\n")
+# define QUIT_REASON(nick, user, host, msg) (nick + "!" + user + "@" + host  + " QUIT :" + msg + "\r\n")
+# define QUIT(nick, user, host) (nick + "!" + user + "@" + host  + " QUIT\r\n")
 
-# define NICK(nick) ("NICK " + nick + "\r\n")
+# define NICK(old_nick, nick) (":" + old_nick + " NICK " + nick + "\r\n")
 
 # define JOIN(nick, user, host, chan) (":" + nick + "!" + user + "@" + host  + " JOIN " + chan + "\r\n")
 //message pour tous les gens sur le channel ":<nick persone qui a join>!<user>@<host> JOIN <channel>"
@@ -35,6 +35,8 @@
 # define NOTICE(chan, str) ("NOTICE " + chan + " :" + str + "\r\n")
 
 # define PART(nick, user, host, chan) (":" + nick + "!" + user + "@" + host + " PART " + chan + "\r\n")
+
+# define PART_REASON(nick, user, host, chan, reason) (":" + nick + "!" + user + "@" + host + " PART " + chan + " :" + reason + "\r\n")
 //message envoye a tous les gens dans le channel quand la personne nick quitte le channel
 
 # define INVITE(nick, user, host, nickinvite)  (nick + "!" + user + "@" + host + " INIVITE " + nickivite + " " + channel + "\r\n")

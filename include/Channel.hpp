@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 17:33:19 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 17:02:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ public:
 	string	get_name()	const;
 
 	bool	add_user(User *new_user, bool is_op);
+	bool	rm_user(User *user);
+	bool	has_user(User *user);
+	bool	is_empty() const;
 	bool	broadcast(string const& str, User *excluded);
 
 private:

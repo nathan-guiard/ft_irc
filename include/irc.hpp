@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 15:14:13 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 17:07:47 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ bool				new_connection(int fd_epoll, int fd_socket);
 bool				deconnection(con_data &data, int fd);
 con_data			init_connection_data(int port);
 vector<string>		get_command(int fd_user);
+void				check_dead_channels();
 
 /*	User		*/
 int					fd_to_id(int fd);

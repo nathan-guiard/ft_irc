@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 18:06:16 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 17:08:29 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 Channel::Channel() { cerr << "USING THE WRONG CHANNEL CONSTRUCTOR" << endl; }
 
-Channel::Channel(string name): _name(name) {}
+Channel::Channel(string name): _name(name) {
+	cout << "Creating channel " << _name << endl;
+}
 
 Channel::Channel(const Channel &copy) {
 	*this = copy;
@@ -38,9 +40,6 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 	user_set::iterator		ite = _users.end();
 	pair<User *, bool>		user = make_pair(new_user, is_op);
 
-
-	cout << "entree dans adduser " << new_user->get_nick() << endl;
-
 	bool is_in_chan = false;
 
 	for (; it != ite; it++) {
@@ -57,12 +56,9 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 							string("localhost"), _name));
 		}
 
-		
 		it = _users.begin();
 		ite = _users.end();
-
 		string sending;
-	
 		for (; it != ite; it++) {
 			user_set::iterator	it2 = it;
 			it2++;
@@ -107,4 +103,37 @@ bool	Channel::broadcast(string const& str, User *excluded)
 			(*it).first->send_to(str);
 	}
 	return true;
+}
+
+bool	Channel::rm_user(User *user) {
+	user_set::iterator it = _users.find(make_pair(user, false));
+	user_set::iterator ite = _users.end();
+	
+	if (it == ite) {
+		it = _users.find(make_pair(user, true));
+	}
+	if (it == ite) {
+		return false;
+	}
+	
+	_users.erase(it);
+	return true;
+}
+
+
+bool	Channel::has_user(User *user) {
+	user_set::iterator it = _users.find(make_pair(user, false));
+	user_set::iterator ite = _users.end();
+	
+	if (it == ite) {
+		it = _users.find(make_pair(user, true));
+	}
+	if (it == ite) {
+		return false;
+	}
+	return true;
+}
+
+bool	Channel::is_empty() const {
+	return _users.empty();
 }

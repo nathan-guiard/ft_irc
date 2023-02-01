@@ -38,6 +38,8 @@ public:
 	bool	command_PING(vector<string> const& tab);
 	bool	command_JOIN(vector<string> const& tab);
 	bool	command_PRIVMSG(vector<string> const& tab);
+	bool	command_QUIT(vector<string> const& tab);
+	bool	command_PART(vector<string> const& tab);
 
 	bool	send_to(string text);
 

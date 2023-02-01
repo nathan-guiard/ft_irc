@@ -92,6 +92,14 @@ bool	User::command_NICK(vector<string> const& tab)
 			return false;
 		}
 	}
+	it = g_users.begin();
+	ite = g_users.end();
+	if (_has_nick) {
+		for (; it != ite; it++) {
+			if ((*it).second->identified())
+				(*it).second->send_to(NICK(_nick, tab[1]));
+		}
+	}
 	_nick = tab[1];
 	_has_nick = true;
 	if (_has_user && _has_nick && !_is_identified)
@@ -244,7 +252,6 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 					s += tab[j];
 				}
 			}
-			cout << chan->get_name() << " : " << s << endl;
 			chan->broadcast(PRIVMSG(_nick, _user, string("localhost"), 
 				tab[1], s), this);
 		}
@@ -283,5 +290,120 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 		}
 
 	}
+	return true;
+}
+
+bool User::command_QUIT(vector<string> const& tab) {
+	user_map::iterator	it = g_users.begin();
+	user_map::iterator	ite = g_users.end();
+	
+	if (!_is_identified)
+		return false;
+
+	string s = tab[1];
+	for (size_t j = 2; j < tab.size(); j++) {
+		if (!tab[j].empty())
+		{
+			s += " ";
+			s += tab[j];
+		}
+	}
+	bool has_a_reason = !s.empty();
+	for (; it != ite; it++) {
+		if ((*it).second != this)
+		{
+			if (has_a_reason)
+				(*it).second->send_to(QUIT_REASON(_nick, _user, string("localhost"), s));
+			else
+				(*it).second->send_to(QUIT(_nick, _user, string("localhost")));
+		}
+	}
+
+	channel_map::iterator	it2 = g_channels.begin();
+	channel_map::iterator	ite2 = g_channels.end();
+	Channel					*chan;
+	for (; it2 != ite2; it2++){
+		chan = (*it2).second;
+		if (chan->has_user(this))
+		{
+			if (has_a_reason)
+				chan->broadcast(PART_REASON(_nick, _user, string("localhost"), tab[1], s), NULL);
+			else
+				chan->broadcast(PART(_nick, _user, string("localhost"), tab[1]), NULL);
+			chan->rm_user(this);
+			// fias un truc
+		}
+		else
+		{
+			// ERREUR ?
+			return false;
+		}
+	}
+	return true;
+}
+
+bool User::command_PART(vector<string> const& tab) {
+	bool				has_a_reason;
+	
+	if (!_is_identified)
+		return false;
+
+	if (tab[1].empty())
+		return false;
+
+	string s = tab[2];
+	for (size_t j = 3; j < tab.size(); j++) {
+		if (!tab[j].empty())
+		{
+			s += " ";
+			s += tab[j];
+		}
+	}
+
+	channel_map::iterator	it = g_channels.begin();
+	channel_map::iterator	ite = g_channels.end();
+	Channel					*chan;
+	has_a_reason = !s.empty();
+
+	for (; it != ite; it++) {
+		if (tab[1] == (*it).first)
+		{
+			chan = (*it).second;
+			if (chan->has_user(this))
+			{
+				if (has_a_reason)
+					chan->broadcast(PART_REASON(_nick, _user,
+						string("localhost"), tab[1], s), NULL);
+				else
+					chan->broadcast(PART(_nick, _user,
+						string("localhost"), tab[1]), NULL);
+				chan->rm_user(this);
+				// fias un truc
+			}
+			else
+			{
+				// ERREUR ?
+				return false;
+			}
+		}
+	}
+
+
+
+
+
+
+	// for (; it != ite; it++) {
+	// 	if ((*it).second != this)
+	// 	{
+	// 		if (has_a_reason)
+	// 			(*it).second->send_to(PART_REASON(_nick, _user, string("localhost"), tab[1], s));
+	// 		else
+	// 			(*it).second->send_to(PART(_nick, _user, string("localhost"), tab[1]));
+
+	// 	}
+			
+	// }
+
 	return true;
 }

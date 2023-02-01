@@ -1,0 +1,123 @@
+==2954466== Invalid read of size 4
+==2954466==    at 0x405D53: User::send_to(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (User.cpp:227)
+==2954466==    by 0x40B563: Channel::add_user(User*, bool) (Channel.cpp:55)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990c4 is 4 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+==2954466== Invalid read of size 4
+==2954466==    at 0x405DAD: User::send_to(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (User.cpp:230)
+==2954466==    by 0x40B563: Channel::add_user(User*, bool) (Channel.cpp:55)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990c0 is 0 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+
+
+
+==2954466== Invalid read of size 8
+==2954466==    at 0x4BFEB18: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==2954466==    by 0x4051E6: User::get_nick[abi:cxx11]() const (User.cpp:32)
+==2954466==    by 0x40BB6B: Channel::add_user(User*, bool) (Channel.cpp:69)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990d0 is 16 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+==2954466== Invalid read of size 8
+==2954466==    at 0x4BFEB1F: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==2954466==    by 0x4051E6: User::get_nick[abi:cxx11]() const (User.cpp:32)
+==2954466==    by 0x40BB6B: Channel::add_user(User*, bool) (Channel.cpp:69)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990c8 is 8 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+==2954466== Invalid read of size 2
+==2954466==    at 0x484FF60: memcpy@GLIBC_2.2.5 (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x4BFEAF3: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==2954466==    by 0x4051E6: User::get_nick[abi:cxx11]() const (User.cpp:32)
+==2954466==    by 0x40BB6B: Channel::add_user(User*, bool) (Channel.cpp:69)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990d8 is 24 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+==2954466== Invalid read of size 2
+==2954466==    at 0x484FF6F: memcpy@GLIBC_2.2.5 (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x4BFEAF3: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==2954466==    by 0x4051E6: User::get_nick[abi:cxx11]() const (User.cpp:32)
+==2954466==    by 0x40BB6B: Channel::add_user(User*, bool) (Channel.cpp:69)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990dc is 28 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
+==2954466== Invalid read of size 1
+==2954466==    at 0x484FF90: memcpy@GLIBC_2.2.5 (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x4BFEAF3: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==2954466==    by 0x4051E6: User::get_nick[abi:cxx11]() const (User.cpp:32)
+==2954466==    by 0x40BB6B: Channel::add_user(User*, bool) (Channel.cpp:69)
+==2954466==    by 0x406DBD: User::command_JOIN(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (User.cpp:210)
+==2954466==    by 0x41429E: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:44)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Address 0x4f990de is 30 bytes inside a block of size 160 free'd
+==2954466==    at 0x484B8AF: operator delete(void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E200: deconnection(con_data&, int) (connections.cpp:28)
+==2954466==    by 0x4143F7: exec_commands(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, con_data&) (exec_commands.cpp:52)
+==2954466==    by 0x403F4D: main (main.cpp:70)
+==2954466==  Block was alloc'd at
+==2954466==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2954466==    by 0x40E382: new_connection(int, int) (connections.cpp:56)
+==2954466==    by 0x403EBD: main (main.cpp:64)
+==2954466== 
