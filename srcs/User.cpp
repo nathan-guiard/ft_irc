@@ -331,12 +331,6 @@ bool User::command_QUIT(vector<string> const& tab) {
 			else
 				chan->broadcast(PART(_nick, _user, string("localhost"), tab[1]), NULL);
 			chan->rm_user(this);
-			// fias un truc
-		}
-		else
-		{
-			// ERREUR ?
-			return false;
 		}
 	}
 	return true;

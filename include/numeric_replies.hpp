@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/03 16:19:02 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:56:44 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 
 
 /*CHANNELS*/
-# define ERR_BADCHANMASK(channel) ("476" + channel = ":Bad Channel Mask\r\n")
+# define ERR_BADCHANMASK(channel) ("476 " + channel + " :Bad Channel Mask\r\n")
 
 # define ERR_NOPRIVILEGES() ("481 :Permission Denied- You're not an IRC operator\r\n")
 
