@@ -257,7 +257,7 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 		}
 		catch (exception const& e)
 		{
-			send_to(ERR_NOSUCHNICK(_nick, _user, string("localhost"), tab[1]));
+			send_to(ERR_NOSUCHNICK(tab[1]));
 			return false;
 		}
 	}
@@ -285,7 +285,7 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 		}
 		catch (exception const& e)
 		{
-			send_to(ERR_NOSUCHNICK(_nick, _user, string("localhost"), tab[1]));
+			send_to(ERR_NOSUCHNICK(tab[1]));
 			return false;
 		}
 
@@ -348,8 +348,10 @@ bool User::command_PART(vector<string> const& tab) {
 	if (!_is_identified)
 		return false;
 
-	if (tab[1].empty())
+	if (tab[1].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("PART")));
 		return false;
+	}
 
 	string s = tab[2];
 	for (size_t j = 3; j < tab.size(); j++) {
@@ -387,23 +389,64 @@ bool User::command_PART(vector<string> const& tab) {
 			}
 		}
 	}
+	return true;
+}
 
+bool User::command_KICK(vector<string> const &tab) {
+	string reason;
 
+	if (tab[3].empty())
+		reason = "You have been kicked by an operator.";
+	else {
+		reason = tab[3];
+		for (size_t j = 4; tab[j].length(); j++) {
+				reason += " ";
+				reason += tab[j];
+		}
+	}
+	cerr << reason << endl;
 
+	if (!_is_identified) {
+		return false;
+	}
 
+	if (tab[2].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("KICK")));
+		return false;
+	}
 
+	Channel *chan = NULL;
+	
+	try {
+		chan = g_channels.at(tab[1]);
+	} catch (exception const &e) {
+		send_to(ERR_NOSUCHNICK(tab[1]));
+		return false;
+	}
 
-	// for (; it != ite; it++) {
-	// 	if ((*it).second != this)
-	// 	{
-	// 		if (has_a_reason)
-	// 			(*it).second->send_to(PART_REASON(_nick, _user, string("localhost"), tab[1], s));
-	// 		else
-	// 			(*it).second->send_to(PART(_nick, _user, string("localhost"), tab[1]));
+	//verifier que le user est dnas le channel et qu'il est operateur
+	if (!chan->has_user(this)) {
+		send_to(ERR_NOTONCHANNEL(chan->get_name()));
+		return false;
+	}
+	else if (!chan->is_op(this)) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	}
+	User *to_ban = NULL;
+	try {
+		to_ban = g_users.at(nick_to_id(tab[2]));
+		if (!chan->has_user(to_ban))
+			throw exception();
+	} catch (exception const &e) {
+		send_to(ERR_USERNOTINCHANNEL(tab[2], chan->get_name()));
+		return false;
+	}
 
-	// 	}
-			
-	// }
+	chan->broadcast(KICK(_nick, _user, string("localhost"),
+						chan->get_name(), tab[2], reason), NULL);
+
+	chan->rm_user(to_ban);
 
 	return true;
 }

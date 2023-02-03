@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:04 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 13:25:15 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:58:36 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ vector<string>	command_parsing(const string &s) {
 		return res;
 	while (!res[i].empty()) {
 		if (res[i][0] == ':') {
-			for (size_t j = i + 1; j < res.size(); j++) {
+			for (size_t j = i + 1; !res[j].empty(); j++) {
 				res[i] += " ";
 				res[i] += res[j];
 				res[j] = string();

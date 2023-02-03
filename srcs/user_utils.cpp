@@ -67,6 +67,20 @@ User	*fd_to_user(int fd) {
 	return NULL;
 }
 
+int		nick_to_id(string nick) {
+	user_map::const_iterator	it = g_users.begin();
+	user_map::const_iterator	ite = g_users.end();
+
+	for (; it != ite; it++) {
+		User *current_user((*it).second);
+
+		if (current_user->get_nick() == nick) {
+			return current_user->get_id();
+		}
+	}
+	return -1;
+}
+
 //	renvoie une string pour avoir un numero de code avec les
 //	zeros avant
 string	my_itoa(int nb) {

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/01 17:07:47 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:01:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void				check_dead_channels();
 /*	User		*/
 int					fd_to_id(int fd);
 User				*fd_to_user(int fd);
+int					nick_to_id(string nick);
 string				my_itoa(int nb);
 
 /*	Parsing		*/

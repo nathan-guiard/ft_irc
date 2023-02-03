@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/01 17:08:29 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:11:32 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,8 @@ bool	Channel::has_user(User *user) {
 
 bool	Channel::is_empty() const {
 	return _users.empty();
+}
+
+bool	Channel::is_op(User *user)	const {
+	return (!(_users.find(make_pair(user, true)) == _users.end()));
 }

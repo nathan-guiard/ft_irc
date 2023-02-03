@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/01 18:00:22 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:19:02 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define PART_REASON(nick, user, host, chan, reason) (":" + nick + "!" + user + "@" + host + " PART " + chan + " :" + reason + "\r\n")
 //message envoye a tous les gens dans le channel quand la personne nick quitte le channel
 
+# define KICK(nick, user, host, chan, kicked, reason) (":" + nick + "!" + user + "@" + host + " KICK " + chan + " " + kicked + " :" + reason + "\r\n")
+
 # define INVITE(nick, user, host, nickinvite)  (nick + "!" + user + "@" + host + " INIVITE " + nickivite + " " + channel + "\r\n")
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
@@ -55,7 +57,9 @@
 /*NICKNAME ERROR*/
 # define ERR_NICKNAMEISUSE(nick) ("433 NICK :" + nick + "\r\n")
 
-# define ERR_NOSUCHNICK(nick, user, host, invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
+# define ERR_NOSUCHNICK(invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
+# define ERR_NOSUCHCHANNEL(channel) ("403 " + channel + " :No such channel\r\n")
+
 
 /*CHANNELS*/
 # define ERR_BADCHANMASK(channel) ("476" + channel = ":Bad Channel Mask\r\n")
@@ -75,6 +79,10 @@
 # define RPL_INVITING(nick, user, host, invitenick, channel) ("341 " + nick + "!" + user + "@" + host + " " + invitenick + " " + channel)
 //afficher ce message dans la log console et dans la console de la personne qui invite
 //pas dans la console de la personne qui est invitee. La personne invitee a le message du #define INVITE
+
+# define ERR_USERNOTINCHANNEL(nick, chan) ("441 " + nick + " " + chan + " :They aren't on that channel\r\n")
+# define ERR_NOTONCHANNEL(chan) ("442 " + chan + " :You're not on that channel\r\n")
+# define ERR_CHANOPRIVSNEEDED(chan) ("482 " + chan + " :You're not channel operator\r\n")
 
 #endif
 
