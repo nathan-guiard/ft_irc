@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/03 17:56:44 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 19:42:40 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@
 # define PART_REASON(nick, user, host, chan, reason) (":" + nick + "!" + user + "@" + host + " PART " + chan + " :" + reason + "\r\n")
 //message envoye a tous les gens dans le channel quand la personne nick quitte le channel
 
+# define KILL(nick, target) (":" + nick + " KILL " + target + "\r\n")
+# define KILL_REASON(nick, target, reason) (":" + nick + " KILL " + target + " :" + reason + "\r\n")
+
+
 # define KICK(nick, user, host, chan, kicked, reason) (":" + nick + "!" + user + "@" + host + " KICK " + chan + " " + kicked + " :" + reason + "\r\n")
 
 # define INVITE(nick, user, host, nickinvite)  (nick + "!" + user + "@" + host + " INIVITE " + nickivite + " " + channel + "\r\n")
@@ -60,11 +64,11 @@
 # define ERR_NOSUCHNICK(invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
 # define ERR_NOSUCHCHANNEL(channel) ("403 " + channel + " :No such channel\r\n")
 
-
+# define RPL_YOUREOPER(nick) ("381 " + nick + " :You are now an IRC operator\r\n")
 /*CHANNELS*/
 # define ERR_BADCHANMASK(channel) ("476 " + channel + " :Bad Channel Mask\r\n")
 
-# define ERR_NOPRIVILEGES() ("481 :Permission Denied- You're not an IRC operator\r\n")
+# define ERR_NOPRIVILEGES "481 :Permission Denied- You're not an IRC operator\r\n"
 
 # define ERR_BANNEDFROMCHAN(channel) ( "475 " + channel + " :Cannot join channel (+k)\r\n")
 

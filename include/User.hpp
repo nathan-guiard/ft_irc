@@ -41,6 +41,8 @@ public:
 	bool	command_QUIT(vector<string> const& tab);
 	bool	command_PART(vector<string> const& tab);
 	bool	command_KICK(vector<string> const &tab);
+	int		command_KILL(vector<string> const &tab);
+	bool	command_OPER(vector<string> const &tab);
 
 	bool	send_to(string text);
 
@@ -49,6 +51,8 @@ public:
 	string	get_real()		const;
 	int		get_id()		const;
 	int		get_fd()		const;
+	bool	get_is_op()		const;
+	void	setIsOp(bool op);
 	bool	identified()	const;
 
 private:
@@ -56,6 +60,7 @@ private:
 	string			_nick, _user, _realname;
 	bool			_has_pass, _has_nick, _has_user;
 	bool			_is_identified;
+	bool			_is_op;
 	set<Channel *>	_channels;
 };
 

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 16:01:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 19:04:26 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 #define LOCALHOST       "127.0.0.1"
 #define MAX_CONNECTIONS	16
 #define	READ_SIZE		16
+#define	PASSWORD		"JesuisBelle_42"
+#define MAX_USER		1000
 
 using namespace std;
 
@@ -69,7 +71,7 @@ extern channel_map	g_channels;
 bool				new_connection(int fd_epoll, int fd_socket);
 bool				deconnection(con_data &data, int fd);
 con_data			init_connection_data(int port);
-vector<string>		get_command(int fd_user);
+vector<string>		get_command(int fd_user, int user_fd);
 void				check_dead_channels();
 
 /*	User		*/

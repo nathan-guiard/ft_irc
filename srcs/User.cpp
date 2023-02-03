@@ -18,7 +18,7 @@ User::User(): _id(-1), _fd(-1), _nick(), _user(), _realname(), _channels() {
 
 User::User(int id, int fd): _id(id), _fd(fd), _nick(), _user(), _realname(),
 	_has_pass(false), _has_nick(false), _has_user(false), _is_identified(false),
-	_channels() {}
+	_is_op(false), _channels() {}
 
 User::User(const User &copy) {
 	*this = copy;
@@ -42,6 +42,14 @@ int	User::get_id()	const {
 
 int	User::get_fd()	const {
 	return _fd;
+}
+
+bool	User::get_is_op()	const {
+	return _is_op;
+}
+
+void	User::setIsOp(bool op) {
+	_is_op = op;
 }
 
 User &User::operator = (const User &copy) {
@@ -441,6 +449,86 @@ bool User::command_KICK(vector<string> const &tab) {
 						chan->get_name(), tab[2], reason), NULL);
 
 	chan->rm_user(to_ban);
+
+	return true;
+}
+
+int	User::command_KILL(vector<string> const &tab) {
+	(void)tab;
+	if (!_is_identified) {
+		return 0;
+	}
+	if (tab[1].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("KILL")));
+		return 0;
+	}
+	if (_is_op == false) {
+		send_to(ERR_NOPRIVILEGES);
+		return 0;
+	}
+	User *to_kill = NULL;
+	try {
+		to_kill = g_users.at(nick_to_id(tab[1]));
+	} catch (exception const &e) {
+		send_to(ERR_NOSUCHNICK(tab[1]));
+		return 0;
+	}
+
+	user_map::iterator	it = g_users.begin();
+	user_map::iterator	ite = g_users.end();
+	
+	if (!_is_identified)
+		return 0;
+
+	string s = tab[1];
+	for (size_t j = 2; j < tab.size(); j++) {
+		if (!tab[j].empty())
+		{
+			s += " ";
+			s += tab[j];
+		}
+	}
+	bool has_a_reason = !s.empty();
+	for (; it != ite; it++) {
+		if ((*it).second != this)
+		{
+			if (has_a_reason)
+				(*it).second->send_to(KILL_REASON(_nick, to_kill->get_nick(), s));
+			else
+				(*it).second->send_to(KILL(_nick, to_kill->get_nick()));
+		}
+	}
+
+	channel_map::iterator	it2 = g_channels.begin();
+	channel_map::iterator	ite2 = g_channels.end();
+	Channel					*chan;
+	for (; it2 != ite2; it2++) {
+		chan = (*it2).second;
+		if (chan->has_user(to_kill))
+			chan->rm_user(to_kill);
+	}
+
+	return to_kill->get_fd();
+}
+
+bool	User::command_OPER(vector<string> const &tab) {
+	(void)tab;
+	if (!_is_identified) {
+		return false;
+	}
+	if (tab[2].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("OPER")));
+		return false;
+	}
+	if (tab[2] != PASSWORD) {
+		send_to(ERR_PASSWDMISMATCH);
+		return false;
+	}
+	else {
+		send_to(RPL_YOUREOPER(_nick));
+		_is_op = true;
+		return true;
+	}
 
 	return true;
 }

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 15:46:27 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 19:35:01 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_commands(int user_id, int user_fd,
 						const string &password, con_data &data) {
-	vector<string>	command = get_command(user_fd);
+	vector<string>	command = get_command(user_fd, user_id);
 	
 	if (command.empty()) {
 		return;
@@ -48,6 +48,14 @@ void	exec_commands(int user_id, int user_fd,
 			bob->command_PRIVMSG(splitted_command);
 		else if (splitted_command[0] == "KICK")
 			bob->command_KICK(splitted_command);
+		else if (splitted_command[0] == "KILL")
+		{
+			int fd = bob->command_KILL(splitted_command);
+			if (fd)
+				deconnection(data, fd);
+		}
+		else if (splitted_command[0] == "OPER")
+			bob->command_OPER(splitted_command);
 		else if (splitted_command[0] == "QUIT")
 		{
 			if (bob->command_QUIT(splitted_command) == true)
