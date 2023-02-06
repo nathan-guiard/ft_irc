@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 19:35:01 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 19:23:13 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	exec_commands(int user_id, int user_fd,
 			bob->command_PRIVMSG(splitted_command);
 		else if (splitted_command[0] == "KICK")
 			bob->command_KICK(splitted_command);
+		else if (splitted_command[0] == "MODE")
+				bob->command_MODE(splitted_command);
 		else if (splitted_command[0] == "KILL")
 		{
 			int fd = bob->command_KILL(splitted_command);

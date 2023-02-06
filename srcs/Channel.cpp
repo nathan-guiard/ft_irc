@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 18:38:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 19:34:52 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,18 +157,18 @@ void	Channel::set_limit(size_t limit) {
 	_limit = limit;
 }
 
-bool	Channel::invite(User *nick) {
-	_invited.insert(nick);
+bool	Channel::invite(User *usr) {
+	_invited.insert(usr);
 	return true;
 }
 
-bool	Channel::ban(User *nick) {
-	_banned.insert(nick);
+bool	Channel::ban(User *usr) {
+	_banned.insert(usr);
 	return true;
 }
 
-bool	Channel::unban(User *nick) {
-	_banned.erase(nick);
+bool	Channel::unban(User *usr) {
+	_banned.erase(usr);
 	return true;
 }
 

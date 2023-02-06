@@ -213,13 +213,11 @@ bool	User::command_JOIN(vector<string> const &tab) {
 
 	try {
 		Channel *chan = g_channels.at(tab[1]);
-		cout << "Pas de nouveaux chan" << endl;
 		chan->add_user(this, false);
 	}
 	catch (exception const &e) {
 		Channel *new_chan = new Channel(tab[1]);
 		g_channels.insert(make_pair<string, Channel *>(tab[1], new_chan));
-		cout << "creation nouveaux chan" << endl;
 		new_chan->add_user(this, true);
 	}
 	return true;
@@ -278,7 +276,13 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 				if ((*it).second->get_nick() == tab[1])
 					user_id = (*it).second->get_id();
 			}
-			User *user = g_users.at(user_id);
+			User *user;
+			try {
+				user = g_users.at(user_id);
+			} catch (exception const &e) {
+				send_to(ERR_NOSUCHNICK(tab[1]));
+				return false;
+			}
 			string s = tab[2];
 			for (size_t j = 3; j < tab.size(); j++) {
 				if (!tab[j].empty())
@@ -528,8 +532,9 @@ bool	User::command_OPER(vector<string> const &tab) {
 }
 
 bool	User::command_MODE(vector<string> const &tab) {
-	int	curr_arg = 2;
-	Channel *chan = NULL;
+	int				curr_arg = 2;
+	Channel 		*chan = NULL;
+	vector<User *>	banned;
 
 	if (tab[1].empty())
 		return false;
@@ -582,10 +587,13 @@ bool	User::command_MODE(vector<string> const &tab) {
 				try {
 					new_user = g_users.at(nick_to_id(tab[curr_arg]));
 				} catch (exception const &e) {
-					continue;
+					;
 				}
-				if (plus)
-					chan->ban(new_user);
+				if (plus) {
+					if (chan->ban(new_user)) {
+						banned.push_back(new_user);
+					}
+				}
 				else
 					chan->unban(new_user);
 				curr_arg = _next_arg_mode(tab, curr_arg);
@@ -605,6 +613,19 @@ bool	User::command_MODE(vector<string> const &tab) {
 			if (tab[i][j] == 'm') {
 				chan->set_moderated(plus);
 			}
+			if (tab[i][j] == '-') {
+				plus = false;
+			}
+			if (tab[i][j] == '+') {
+				plus = true;
+			}
+		}
+	}
+	for (size_t k = 0; k < banned.size(); k++)
+	{
+		if (banned[k]) {
+		chan->broadcast(BANNED(banned[k]->get_nick(), chan->get_name()), NULL);
+		chan->rm_user(banned[k]);
 		}
 	}
 	return true;
