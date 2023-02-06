@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 18:30:19 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 19:43:47 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ public:
 	Channel &operator = (const Channel &copy);
 
 	string	get_name()	const;
+	string	get_topic() const;
+	User	*getWhoChangedTopic() const;
 
 	bool	add_user(User *new_user, bool is_op);
 	bool	rm_user(User *user);
@@ -40,6 +42,8 @@ public:
 	void	set_invite_only(bool status);
 	void	set_moderated(bool status);
 	void	set_limit(size_t limit);
+	void	set_topic(string const& topic);
+	void	setWhoChangedTopic(User *user);
 
 	bool	invite(User *nick);
 	bool	ban(User *nick);
@@ -52,6 +56,9 @@ private:
 	set<User *>	_invited;
 	bool		_invite_only, _moderated;
 	size_t		_limit;
+	User		*_whoChangedTopic;
+	string		_topic;
+	
 
 	bool	_add_user_verifications(User *new_user)	const;
 };

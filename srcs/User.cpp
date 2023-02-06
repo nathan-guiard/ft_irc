@@ -632,6 +632,50 @@ bool	User::command_TOPIC(vector<string> const &tab)
 	Channel *chan = NULL;
 	try {
 		chan = g_channels.at(tab[1]);
+	} catch (exception const&e) {
+		send_to(ERR_NOSUCHCHANNEL(tab[1]));
+		return false ;
 	}
-
+	if (!chan->has_user(this)) {
+		send_to(ERR_NOTONCHANNEL(chan->get_name()));
+		return false;
+	}
+	//si le mode protected channel et pas les permissions
+	// if (!chan->is_op(this)) {
+	// 	send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+	// 	return false;
+	// }
+	string s = tab[2];
+	for (size_t j = 3; j < tab.size(); j++) {
+		if (!tab[j].empty())
+		{
+			s += " ";
+			s += tab[j];
+		}
+	}
+	if (tab[2].empty()) {
+		if ((chan->get_topic()).empty()){
+			send_to(RPL_NOTOPIC(_nick, _user, (string)"localhost", chan->get_name()));
+		}
+		else {
+			send_to(RPL_TOPIC(_nick, _user, (string)"localhost", chan->get_name(), chan->get_topic()));
+			// User *T = chan->getWhoChangedTopic();
+			// send_to(RPL_TOPICWHOTIME(_nick, tab[1], T->get_nick(), T->get_user(),
+			// 	(string)"42")); //JE SAIS PAS QUOI METTRE POUR LE DERNIER
+		}
+	}
+	else if (tab[2] == ":") {
+		chan->set_topic(string());
+		chan->broadcast(TOPIC(_nick, _user, (string)"localhost", chan->get_name(),
+			string()), NULL);
+	//pb ici parce que le : est enleve et du coup ca va dans le if du dessus
+	//je dois ecrire :: pour que ca marche
+	}
+	else {
+		chan->set_topic(s);
+		chan->broadcast(TOPIC(_nick, _user, (string)"localhost", chan->get_name(),
+			 chan->get_topic()), NULL);
+	}
+	return true ;
 }
+

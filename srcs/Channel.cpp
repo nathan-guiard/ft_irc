@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 18:38:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:58:54 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 Channel::Channel() { cerr << "USING THE WRONG CHANNEL CONSTRUCTOR" << endl; }
 
 Channel::Channel(string name): _name(name), _users(), _banned(), _invited(),
-							_invite_only(false), _moderated(false), _limit(-1) {
+							_invite_only(false), _moderated(false), _limit(-1),
+								_whoChangedTopic(NULL), _topic() {
 	cout << "Creating channel " << _name << endl;
 }
 
@@ -34,6 +35,14 @@ Channel::~Channel() {
 
 string	Channel::get_name()	const {
 	return _name;
+}
+
+string	Channel::get_topic()	const {
+	return _topic;
+}
+
+User	*Channel::getWhoChangedTopic()	const {
+	return (_whoChangedTopic);
 }
 
 bool	Channel::add_user(User *new_user, bool is_op) {
@@ -84,6 +93,10 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 				sending += (*it).first->get_nick() + string(" ");
 			}
 		}
+		if (!_topic.empty())
+			user.first->send_to(RPL_TOPIC(user.first->get_nick(),
+							user.first->get_user(),
+							string("localhost"), _name, _topic));
 		user.first->send_to(RPL_NAMREPLY(user.first->get_nick(),
 							user.first->get_user(),
 							string("localhost"), _name) + sending + "\r\n");
@@ -156,6 +169,16 @@ void	Channel::set_moderated(bool status) {
 void	Channel::set_limit(size_t limit) {
 	_limit = limit;
 }
+
+void	Channel::set_topic(string const &topic) {
+	_topic = topic;
+}
+
+void	Channel::setWhoChangedTopic(User *user) {
+	_whoChangedTopic = user;
+}
+
+
 
 bool	Channel::invite(User *nick) {
 	_invited.insert(nick);
