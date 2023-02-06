@@ -15,13 +15,6 @@
 
 #include "irc.hpp"
 
-/**
- * @brief Classe User
- * 
- * @param Nick nickname NICK -> Unique parmis les users
- * @param User username USER
-**/
-
 class User {
 public:
 	User();
@@ -43,8 +36,9 @@ public:
 	bool	command_KICK(vector<string> const &tab);
 	int		command_KILL(vector<string> const &tab);
 	bool	command_OPER(vector<string> const &tab);
+	bool	command_MODE(vector<string> const &tab);
 
-	bool	send_to(string text);
+	bool	send_to(string text)	const;
 
 	string	get_user()		const;
 	string	get_nick()		const;
@@ -62,6 +56,8 @@ private:
 	bool			_is_identified;
 	bool			_is_op;
 	set<Channel *>	_channels;
+
+	int	_next_arg_mode(vector<string> const &tab, int i)	const;
 };
 
 #endif

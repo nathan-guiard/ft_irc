@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 16:10:14 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 14:32:37 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,22 @@ public:
 
 	bool	is_op(User *user)	const;
 
+	//	Modes
+	void	set_invite_only(bool status);
+	void	set_moderated(bool status);
+	void	set_limit(int limit);
+
+	bool	invite(string nick);
+	bool	ban(string nick);
+	bool	unban(string nick);
+
 private:
 	string		_name;
 	user_set	_users;
+	set<User *>	_banned;
+	set<User *>	_invited;
+	bool		_invite_only, _moderated;
+	int			_limit;
 };
 
 #endif

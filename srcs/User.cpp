@@ -230,7 +230,7 @@ bool	User::identified()	const {
 	return _is_identified;
 }
 
-bool	User::send_to(string text) {
+bool	User::send_to(string text) const {
 
 	if (write(_fd, text.c_str(), text.length()) < 1)
 		return false;
@@ -512,7 +512,6 @@ int	User::command_KILL(vector<string> const &tab) {
 }
 
 bool	User::command_OPER(vector<string> const &tab) {
-	(void)tab;
 	if (!_is_identified) {
 		return false;
 	}
@@ -524,11 +523,94 @@ bool	User::command_OPER(vector<string> const &tab) {
 		send_to(ERR_PASSWDMISMATCH);
 		return false;
 	}
-	else {
-		send_to(RPL_YOUREOPER(_nick));
-		_is_op = true;
+	send_to(RPL_YOUREOPER(_nick));
+	_is_op = true;
+	return true;
+}
+
+bool	User::command_MODE(vector<string> const &tab) {
+	int	curr_arg = 2;
+	Channel *chan = NULL;
+
+	if (tab[1].empty())
+		return false;
+	if (tab[1] != _nick) {
+		if (tab[1][0] == '#') {
+			try {
+				chan = g_channels.at(tab[1]);
+			} catch (exception const &e) {
+				send_to(ERR_NOSUCHCHANNEL(tab[1]));
+				return false;
+			}
+		}
+		else {
+			send_to(ERR_USERSDONTMATCH(_nick));
+			return false;
+		}
+	}
+	if (tab[2].empty() && !chan) {
+		// send_to(RPL_UMODEIS()); -> ?
 		return true;
 	}
 
-	return true;
+	if (!chan) {
+		return true; // ??
+	}
+
+	if (!_is_op && !chan->is_op(this)) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	}
+
+	for (int i = 2; !tab[i].empty(); i++) {
+		bool	plus;
+		bool	args = true;
+
+		curr_arg = _next_arg_mode(tab, curr_arg);
+		tab[i][0] == '+' ? plus = true : plus = false;
+
+		if (curr_arg == -1)
+			args = false;
+
+		if (curr_arg == i)
+			continue;
+		if (tab[i].size() == 1)
+			continue;
+		
+		for (int j = 1; tab[i].size() > j; j++) {
+			if (tab[i][j] == 'b' && args) {
+				if (plus)
+					chan->ban(tab[curr_arg]);
+				else
+					chan->unban(tab[curr_arg]);
+				curr_arg = _next_arg_mode(tab, curr_arg);
+			}
+			if (tab[i][j] == 'l') {
+				if (plus)
+				{
+					chan->set_limit(atoi(tab[curr_arg].c_str()));
+					curr_arg = _next_arg_mode(tab, curr_arg);
+				}
+				else
+					chan->set_limit(-1);
+			}
+			if (tab[i][j] == 'i') {
+				chan->set_invite_only(plus);
+			}
+			if (tab[i][j] == 'm') {
+				chan->set_moderated(plus);
+			}
+		}
+	}
 }
+
+int	User::_next_arg_mode(vector<string> const &tab, int i) const {
+	int tab_len = tab.size();
+
+	for (; i < tab_len && !tab[i].empty(); i++) {
+		if (tab[i][0] != '+' || tab[i][0] == '-')
+			return i;
+	}
+	return -1;
+}
+
