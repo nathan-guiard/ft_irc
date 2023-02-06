@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 19:03:54 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:07:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,19 @@ static string	read_connection_data(int fd_user);
  * @return	Every command that the user sent. Empty if none.
  */
 vector<string>	get_command(int fd_user, int id_user) {
-	static string	command[MAX_USER];
+	static map<int, string>	command;
+	// static string	command;
 	string			line;
 	vector<string>	res;
 	bool			has_no_newline;
 	size_t			index = string::npos - 1;
 	bool			whole_string_splitted = false;
 
+	try {
+		command.at(id_user);
+	} catch (exception const &e) {
+		command.insert(make_pair(id_user, string()));
+	}
 	command[id_user].append(read_connection_data(fd_user));
 	has_no_newline = command[id_user].find("\r\n") == string::npos;
 	
