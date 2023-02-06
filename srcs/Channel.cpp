@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 13:51:03 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 15:03:52 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,31 @@ bool	Channel::is_empty() const {
 
 bool	Channel::is_op(User *user)	const {
 	return (!(_users.find(make_pair(user, true)) == _users.end()));
+}
+
+void	Channel::set_invite_only(bool status) {
+	_invite_only = status;
+}
+
+void	Channel::set_moderated(bool status) {
+	_moderated = status;
+}
+
+void	Channel::set_limit(int limit) {
+	_limit = limit;
+}
+
+bool	Channel::invite(string nick) {
+	_invited.insert(nick);
+	return true;
+}
+
+bool	Channel::ban(string nick) {
+	_banned.insert(nick);
+	return true;
+}
+
+bool	Channel::unban(string nick) {
+	_banned.erase(nick);
+	return true;
 }

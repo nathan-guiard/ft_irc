@@ -577,7 +577,7 @@ bool	User::command_MODE(vector<string> const &tab) {
 		if (tab[i].size() == 1)
 			continue;
 		
-		for (int j = 1; tab[i].size() > j; j++) {
+		for (size_t j = 1; tab[i].size() > j; j++) {
 			if (tab[i][j] == 'b' && args) {
 				if (plus)
 					chan->ban(tab[curr_arg]);
@@ -602,6 +602,7 @@ bool	User::command_MODE(vector<string> const &tab) {
 			}
 		}
 	}
+	return true;
 }
 
 int	User::_next_arg_mode(vector<string> const &tab, int i) const {

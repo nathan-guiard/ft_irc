@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 14:32:37 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 14:56:26 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ public:
 private:
 	string		_name;
 	user_set	_users;
-	set<User *>	_banned;
-	set<User *>	_invited;
+	set<string>	_banned;
+	set<string>	_invited;
 	bool		_invite_only, _moderated;
 	int			_limit;
 };
