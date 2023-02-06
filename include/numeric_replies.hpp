@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numeric_replies.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/06 13:25:50 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 18:30:06 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,24 @@
 # define INVITE(nick, user, host, nickinvite)  (nick + "!" + user + "@" + host + " INIVITE " + nickivite + " " + channel + "\r\n")
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
+
+# define RPL_TOPIC(chan, topic) ("332 " + chan + " :" + topic + "\r\n")
+//ecrit le topic du channel si celui ci est set 
+# define RPL_NOTOPIC(chan) ("331 " + chan + " :No topic is set\r\n")
+
+//topic #chan
+	//->renvoie 331 ou 332 return true
+//topic #chan "nouveau ntopic"
+	//->envoie a tout le monde
+//topic #chan ""
+	//->clear le topic du chan
+	//tt les gens sur le chan meme moi recoit topic #chan "new topic"
+//si le user est pas sur le chan
+	//442 NOTONCHANNEL return false
+//si RPL_TOPIC est envoye envoyer aussi  RPL_TOPICWHOTIME 333
+//si le mode protected channel et pas les permissions
+	//ERR_CHANOPRIVSNEEDED (482) return false
+
 
 # define ERR_ALREADYREGISTERED "462 :Unauthorized command (already registered)\r\n"
 

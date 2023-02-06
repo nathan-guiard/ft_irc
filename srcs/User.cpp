@@ -620,3 +620,18 @@ int	User::_next_arg_mode(vector<string> const &tab, int i) const {
 	return -1;
 }
 
+bool	User::command_TOPIC(vector<string> const &tab)
+{
+	if (!_is_identified) {
+		return false;
+	}
+	if (tab[1].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("TOPIC")));
+		return false;
+	}
+	Channel *chan = NULL;
+	try {
+		chan = g_channels.at(tab[1]);
+	}
+
+}
