@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/06 18:30:06 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:45:51 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@
 
 # define ERR_NOPRIVILEGES "481 :Permission Denied- You're not an IRC operator\r\n"
 
-# define ERR_BANNEDFROMCHAN(channel) ( "475 " + channel + " :Cannot join channel (+k)\r\n")
+# define ERR_BANNEDFROMCHAN(nick, channel) ( "475 " + nick + " " + channel + " :Cannot join channel (+b)\r\n")
 
-# define ERR_CHANNELISFULL(channel) ("471 " + channel + " :Cannot join channel (+l)\r\n")
+# define ERR_CHANNELISFULL(nick, channel) ("471 " + nick + " " + channel + " :Cannot join channel (+l)\r\n")
 
 # define RPL_NAMREPLY(nick, user, host, channel) ("353 " + nick + "!" + user + "@" + host + " = " + channel + " :")
 //2e message standard recu quand on rejoint un channel
@@ -105,6 +105,7 @@
 # define ERR_USERNOTINCHANNEL(nick, chan) ("441 " + nick + " " + chan + " :They aren't on that channel\r\n")
 # define ERR_NOTONCHANNEL(chan) ("442 " + chan + " :You're not on that channel\r\n")
 # define ERR_CHANOPRIVSNEEDED(chan) ("482 " + chan + " :You're not channel operator\r\n")
+# define ERR_INVITEONLYCHAN(nick, chan) ("473 " + nick + " " + chan + " :Cannot join channel (+i)")
 
 #define ERR_USERSDONTMATCH(nick) ("502 " + nick + " :Cannot change change mode for other users\r\n")
 // #define RPL_UMODEIS()

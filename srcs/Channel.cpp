@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 17:59:27 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:38:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 	it = _users.begin();
 	ite = _users.end();
 	if (!is_in_chan) {
+		if (_add_user_verifications(new_user) == false)
+			return false;
+
 		_users.insert(user);
 		for (; it != ite; it++) {
 			(*it).first->send_to(JOIN(user.first->get_nick(), user.first->get_user(),
@@ -150,7 +153,7 @@ void	Channel::set_moderated(bool status) {
 	_moderated = status;
 }
 
-void	Channel::set_limit(int limit) {
+void	Channel::set_limit(size_t limit) {
 	_limit = limit;
 }
 
@@ -166,5 +169,23 @@ bool	Channel::ban(User *nick) {
 
 bool	Channel::unban(User *nick) {
 	_banned.erase(nick);
+	return true;
+}
+
+bool	Channel::_add_user_verifications(User *new_user) const {
+	if (_limit != (size_t)-1 && _limit >= _users.size()) {
+		new_user->send_to(ERR_CHANNELISFULL(new_user->get_nick(), _name));
+		return false;
+	}
+	if (_invite_only) {
+		if (_invited.find(new_user) == _invited.end()) {
+			new_user->send_to(ERR_INVITEONLYCHAN(new_user->get_nick(), _name));
+			return false;
+		}
+	}
+	if (_banned.find(new_user) != _banned.end()) {
+		new_user->send_to(ERR_BANNEDFROMCHAN(new_user->get_nick(), _name));
+		return false;
+	}
 	return true;
 }

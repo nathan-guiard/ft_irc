@@ -597,7 +597,7 @@ bool	User::command_MODE(vector<string> const &tab) {
 					curr_arg = _next_arg_mode(tab, curr_arg);
 				}
 				else
-					chan->set_limit(-1);
+					chan->set_limit((size_t)-1);
 			}
 			if (tab[i][j] == 'i') {
 				chan->set_invite_only(plus);
