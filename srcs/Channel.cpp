@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 15:03:52 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:59:27 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,17 +154,17 @@ void	Channel::set_limit(int limit) {
 	_limit = limit;
 }
 
-bool	Channel::invite(string nick) {
+bool	Channel::invite(User *nick) {
 	_invited.insert(nick);
 	return true;
 }
 
-bool	Channel::ban(string nick) {
+bool	Channel::ban(User *nick) {
 	_banned.insert(nick);
 	return true;
 }
 
-bool	Channel::unban(string nick) {
+bool	Channel::unban(User *nick) {
 	_banned.erase(nick);
 	return true;
 }

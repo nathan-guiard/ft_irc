@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 11:07:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:52:29 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static string	read_connection_data(int fd_user);
  */
 vector<string>	get_command(int fd_user, int id_user) {
 	static map<int, string>	command;
-	// static string	command;
+	// static string	command[MAX];
 	string			line;
 	vector<string>	res;
 	bool			has_no_newline;

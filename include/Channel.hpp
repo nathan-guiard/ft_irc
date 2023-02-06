@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 14:56:26 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/06 18:00:04 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ public:
 	void	set_moderated(bool status);
 	void	set_limit(int limit);
 
-	bool	invite(string nick);
-	bool	ban(string nick);
-	bool	unban(string nick);
+	bool	invite(User *nick);
+	bool	ban(User *nick);
+	bool	unban(User *nick);
 
 private:
 	string		_name;
 	user_set	_users;
-	set<string>	_banned;
-	set<string>	_invited;
+	set<User *>	_banned;
+	set<User *>	_invited;
 	bool		_invite_only, _moderated;
 	int			_limit;
 };

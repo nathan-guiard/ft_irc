@@ -156,7 +156,6 @@ bool User::command_USER(vector<string> const& tab)
 	return true;
 }
 
-
 /**
  * @brief	Execute la commande PASS
  * 
@@ -576,13 +575,19 @@ bool	User::command_MODE(vector<string> const &tab) {
 			continue;
 		if (tab[i].size() == 1)
 			continue;
-		
+
 		for (size_t j = 1; tab[i].size() > j; j++) {
 			if (tab[i][j] == 'b' && args) {
+				User *new_user = NULL;
+				try {
+					new_user = g_users.at(nick_to_id(tab[curr_arg]));
+				} catch (exception const &e) {
+					continue;
+				}
 				if (plus)
-					chan->ban(tab[curr_arg]);
+					chan->ban(new_user);
 				else
-					chan->unban(tab[curr_arg]);
+					chan->unban(new_user);
 				curr_arg = _next_arg_mode(tab, curr_arg);
 			}
 			if (tab[i][j] == 'l') {
