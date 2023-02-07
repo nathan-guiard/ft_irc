@@ -1,7 +1,7 @@
 # Nathan:
 
-- [ ] Ban a mettre en place dans les autres fonctions
-  - [ ] join
+- [x] Ban a mettre en place dans les autres fonctions
+  - [x] join
 - [x] Invite a mettre en place dans les autres fonctions
   - [x] join
   - [ ] commend_INVITE (elsie)

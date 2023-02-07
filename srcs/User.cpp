@@ -538,7 +538,7 @@ bool	User::command_OPER(vector<string> const &tab) {
 }
 
 bool	User::command_MODE(vector<string> const &tab) {
-	int				curr_arg = 2;
+	int				curr_arg = 3;
 	Channel 		*chan = NULL;
 	vector<User *>	banned;
 

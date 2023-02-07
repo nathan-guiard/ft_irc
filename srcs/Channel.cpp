@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 11:12:58 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:45:34 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,7 @@ bool	Channel::ban(User *usr) {
 }
 
 bool	Channel::unban(User *usr) {
-	_banned.erase(usr);
-	return true;
+	return (bool)_banned.erase(usr);
 }
 
 bool	Channel::is_banned(User *usr)	const {
