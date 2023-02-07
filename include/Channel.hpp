@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 16:26:50 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:12:12 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ public:
 	string	get_name()	const;
 	string	get_topic() const;
 	User	*getWhoChangedTopic() const;
-
+	bool	get_topic_right() const {return _topic_right;}
+	bool	get_invite_only() const {return _invite_only;}
+	
 	bool	add_user(User *new_user, bool is_op);
 	bool	rm_user(User *user);
 	bool	has_user(User *user);

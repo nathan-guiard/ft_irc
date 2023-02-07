@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 16:26:30 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:53:23 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,15 @@ bool	Channel::add_user(User *new_user, bool is_op) {
 				sending += (*it).first->get_nick() + string(" ");
 			}
 		}
-		if (!_topic.empty())
+		if (!_topic.empty()) {
 			user.first->send_to(RPL_TOPIC(user.first->get_nick(),
-							user.first->get_user(),
-							string("localhost"), _name, _topic));
+				user.first->get_user(), string("localhost"), _name, _topic));
+			User *T = this->getWhoChangedTopic();
+			if (T) {
+				user.first->send_to(RPL_TOPICWHOTIME(user.first->get_nick(), _name,
+					T->get_nick(), T->get_user(), (string)"1675789233"));
+			}
+		}
 		user.first->send_to(RPL_NAMREPLY(user.first->get_nick(),
 							user.first->get_user(),
 							string("localhost"), _name) + sending + "\r\n");

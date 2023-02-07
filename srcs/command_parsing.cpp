@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parsing.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:04 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 16:58:36 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 17:41:30 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ vector<string>	command_parsing(const string &s) {
 				res[i] += res[j];
 				res[j] = string();
 			}
-			res[i].erase(0, 1);
+			string test_topic = res[0];
+			transform(test_topic.begin(), test_topic.end(), test_topic.begin(), ::toupper);
+			if (!(test_topic == "TOPIC" && res[i] == ":"))
+				res[i].erase(0, 1);
 			break;
 		}
 		i++;

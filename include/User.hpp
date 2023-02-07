@@ -38,6 +38,8 @@ public:
 	bool	command_OPER(vector<string> const &tab);
 	bool	command_MODE(vector<string> const &tab);
 	bool	command_TOPIC(vector<string> const &tab);
+	bool	command_NOTICE(vector<string> const &tab);
+	bool	command_INVITE(vector<string> const &tab);
 
 	bool	send_to(string text)	const;
 

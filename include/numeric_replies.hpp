@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/07 16:20:46 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:40:08 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define PRIVMSG(nick, user, host, dest, str) (":" + nick + "!" + user + "@" + host + " PRIVMSG " + dest + " :" + str + "\r\n") //dest cest le nom du channel
 //pour envoyer 
 
-# define NOTICE(chan, str) ("NOTICE " + chan + " :" + str + "\r\n")
+# define NOTICE(nick, user, host, chan, str) (":" + nick + "!" + user + "@" + host + "NOTICE " + chan + " :" + str + "\r\n")
 
 # define PART(nick, user, host, chan) (":" + nick + "!" + user + "@" + host + " PART " + chan + "\r\n")
 
@@ -47,7 +47,7 @@
 
 # define KICK(nick, user, host, chan, kicked, reason) (":" + nick + "!" + user + "@" + host + " KICK " + chan + " " + kicked + " :" + reason + "\r\n")
 
-# define INVITE(nick, user, host, nickinvite)  (nick + "!" + user + "@" + host + " INIVITE " + nickivite + " " + channel + "\r\n")
+# define INVITE(nick, user, host, nickinvite, channel)  (nick + "!" + user + "@" + host + " INIVITE " + nickinvite + " " + channel + "\r\n")
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
 
@@ -58,26 +58,6 @@
 # define RPL_TOPIC(nick, user, host, chan, topic) ("332 " + nick + "!" + user + "@" + host + " " + chan + " :" + topic + "\r\n")
 //ecrit le topic du channel si celui ci est set
 # define RPL_TOPICWHOTIME(nick, chan, whoset, user, setat) ("333 " + nick + " " + chan + " " + whoset + "!" + user + "@localhost " + setat + "\r\n")
-
-
-
-//topic #chan
-	//->renvoie 331 ou 332 return true
-//topic #chan "nouveau ntopic"
-	//->envoie a tout le monde TOPIC
-//topic #chan qui existe pas
-	//no such chan 403
-//topic #chan :
-	//->clear le topic du chan
-	//tt les gens sur le chan meme moi recoit TOPIC
-//si le user est pas sur le chan
-	//442 NOTONCHANNEL return false
-//si RPL_TOPIC est envoye envoyer aussi  RPL_TOPICWHOTIME 333
-//si le mode protected channel et pas les permissions
-	//ERR_CHANOPRIVSNEEDED (482) return false
-
-//QD tu join , fais vmt le 332
-
 
 # define ERR_ALREADYREGISTERED "462 :Unauthorized command (already registered)\r\n"
 
@@ -124,8 +104,9 @@
 # define ERR_CANNOTSENDTOCHAN(nick, chan) ("404 " + nick + " " + chan + " :Cannot send to channel\r\n")
 
 
-#define ERR_USERSDONTMATCH(nick) ("502 " + nick + " :Cannot change change mode for other users\r\n")
+# define ERR_USERSDONTMATCH(nick) ("502 " + nick + " :Cannot change change mode for other users\r\n")
 // #define RPL_UMODEIS()
+# define ERR_USERONCHANNEL(nick, invitenick, chan) ("443 " + nick + " " + invitenick + " " + chan + ":is already on channel\r\n")
 
 #endif
 

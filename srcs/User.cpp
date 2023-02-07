@@ -677,11 +677,29 @@ bool	User::command_TOPIC(vector<string> const &tab)
 		send_to(ERR_NOTONCHANNEL(chan->get_name()));
 		return false;
 	}
-	//si le mode protected channel et pas les permissions
-	// if (!chan->is_op(this)) {
-	// 	send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
-	// 	return false;
-	// }
+	if (tab[2].empty()) {
+		if ((chan->get_topic()).empty()){
+			send_to(RPL_NOTOPIC(_nick, _user, (string)"localhost", chan->get_name()));
+			return true ;
+		}
+		else {
+			send_to(RPL_TOPIC(_nick, _user, (string)"localhost", chan->get_name(), chan->get_topic()));
+			User *T = chan->getWhoChangedTopic();
+			if (T) {
+			send_to(RPL_TOPICWHOTIME(_nick, tab[1], T->get_nick(), T->get_user(),
+				(string)"1675789233"));
+			}
+			return true ;
+		}
+	}
+
+	if (!tab[2].empty() && !chan->is_op(this) && chan->get_topic_right()) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	} else if (!tab[2].empty() && !_is_op && chan->get_topic_right()) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	}
 	string s = tab[2];
 	for (size_t j = 3; j < tab.size(); j++) {
 		if (!tab[j].empty())
@@ -690,28 +708,163 @@ bool	User::command_TOPIC(vector<string> const &tab)
 			s += tab[j];
 		}
 	}
-	if (tab[2].empty()) {
-		if ((chan->get_topic()).empty()){
-			send_to(RPL_NOTOPIC(_nick, _user, (string)"localhost", chan->get_name()));
-		}
-		else {
-			send_to(RPL_TOPIC(_nick, _user, (string)"localhost", chan->get_name(), chan->get_topic()));
-			// User *T = chan->getWhoChangedTopic();
-			// send_to(RPL_TOPICWHOTIME(_nick, tab[1], T->get_nick(), T->get_user(),
-			// 	(string)"42")); //JE SAIS PAS QUOI METTRE POUR LE DERNIER
-		}
-	}
-	else if (tab[2] == ":") {
+
+	if (s == ":") {
 		chan->set_topic(string());
 		chan->broadcast(TOPIC(_nick, _user, (string)"localhost", chan->get_name(),
 			string()), NULL);
-	//pb ici parce que le : est enleve et du coup ca va dans le if du dessus
-	//je dois ecrire :: pour que ca marche
+		chan->setWhoChangedTopic(this);
+		chan->broadcast(RPL_TOPICWHOTIME(_nick, tab[1], _nick, _user,
+				(string)"1675789233"), NULL);
 	}
 	else {
 		chan->set_topic(s);
 		chan->broadcast(TOPIC(_nick, _user, (string)"localhost", chan->get_name(),
 			 chan->get_topic()), NULL);
+		chan->setWhoChangedTopic(this);
+		chan->broadcast(RPL_TOPICWHOTIME(_nick, tab[1], _nick, _user,
+				(string)"1675789233"), NULL);
 	}
 	return true ;
+}
+
+bool	User::command_NOTICE(vector<string> const &tab)
+{
+	if (!_is_identified)
+		return false;
+	
+	if (tab[2].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("PRIVMSG")));
+		return false;
+	}
+
+	if (tab[1][0] == '#')
+	{
+		try {
+			Channel *chan = g_channels.at(tab[1]);
+
+			if (chan->is_banned(this) ||
+				(chan->is_moderated() && !_is_op && !chan->is_op(this)))
+			{
+				//send_to(ERR_CANNOTSENDTOCHAN(_nick, chan->get_name()));
+				return false;
+			}
+			string s = tab[2];
+			for (size_t j = 3; j < tab.size(); j++) {
+				if (!tab[j].empty())
+				{
+					s += " ";
+					s += tab[j];
+				}
+			}
+			chan->broadcast(NOTICE(_nick, _user, string("localhost"), 
+				tab[1], s), this);
+		}
+		catch (exception const& e)
+		{
+			//send_to(ERR_NOSUCHNICK(tab[1]));
+			return false;
+		}
+	}
+	else {
+		try {
+			user_map::iterator	it = g_users.begin();
+			user_map::iterator	ite = g_users.end();
+			int					user_id;
+
+			for (; it != ite; it++) {
+				if ((*it).second->get_nick() == tab[1])
+					user_id = (*it).second->get_id();
+			}
+			User *user;
+			try {
+				user = g_users.at(user_id);
+			} catch (exception const &e) {
+				//send_to(ERR_NOSUCHNICK(tab[1]));
+				return false;
+			}
+			string s = tab[2];
+			for (size_t j = 3; j < tab.size(); j++) {
+				if (!tab[j].empty())
+				{
+					s += " ";
+					s += tab[j];
+				}
+			}
+			user->send_to(NOTICE(_nick, _user, string("localhost"), 
+				tab[1], s));
+		}
+		catch (exception const& e)
+		{
+			//send_to(ERR_NOSUCHNICK(tab[1]));
+			return false;
+		}
+
+	}
+	return true;
+}
+
+bool	User::command_INVITE(vector<string> const &tab)
+{
+	if (!_is_identified)
+		return false;
+	
+	if (tab[2].empty()) {
+		send_to(ERR_NEEDMOREPARAMS(string("INVITE")));
+		return false;
+	}
+
+	/*CHECK CHANNEL*/
+	Channel *chan = NULL;
+	try {
+		chan = g_channels.at(tab[2]);
+	} catch (exception const&e) {
+		send_to(ERR_NOSUCHCHANNEL(tab[2]));
+		return false ;
+	}
+
+	/*CHECK PRIVILEGES*/
+	if (!chan->is_op(this) && chan->get_invite_only()) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	} else if (!_is_op && chan->get_invite_only()) {
+		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
+		return false;
+	}
+
+	/*CHECK IF YOU ARE ON CHAN*/
+	if (!chan->has_user(this)) {
+		send_to(ERR_NOTONCHANNEL(chan->get_name()));
+		return false;
+	}
+
+	/*CHECK IF THE PERSON YOU WANT TO INVITE EXIST*/
+	user_map::iterator	it = g_users.begin();
+	user_map::iterator	ite = g_users.end();
+	int					user_id;
+
+	for (; it != ite; it++) {
+		if ((*it).second->get_nick() == tab[1])
+			user_id = (*it).second->get_id();
+	}
+	User *user = NULL;
+	try {
+		user = g_users.at(user_id);
+	} catch (exception const &e) {
+		send_to(ERR_NOSUCHNICK(tab[1]));
+		return false;
+	}
+
+	/*CHECK SI L'INVITE EST DEJA SUR LE CHAN*/
+	if (chan->has_user(user)) {
+		send_to(ERR_USERONCHANNEL(_nick, user->get_nick(), chan->get_name()));
+		return false ;
+	}
+
+	/*SEND DES MESSAGES D'INVIT*/
+	send_to(RPL_INVITING(_nick, _user, (string)"localhost", user->get_nick(),
+		chan->get_name()));
+	user->send_to(INVITE(_nick, _user, (string)"localhost", user->get_nick(),
+		chan->get_name()));
+	return true;
 }

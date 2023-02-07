@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 16:24:01 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:04:08 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	exec_commands(int user_id, int user_fd,
 				bob->command_MODE(splitted_command);
 		else if (splitted_command[0] == "TOPIC")
 			bob->command_TOPIC(splitted_command);
+		else if (splitted_command[0] == "NOTICE")
+			bob->command_NOTICE(splitted_command);
+		else if (splitted_command[0] == "INVITE")
+			bob->command_INVITE(splitted_command);
 		else if (splitted_command[0] == "KILL")
 		{
 			int fd = bob->command_KILL(splitted_command);
