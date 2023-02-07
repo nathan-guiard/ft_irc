@@ -11,4 +11,3 @@
   - [ ] join (lol)
 
 - [x] check les droits d'operateur
-- [ ] mode string pour un channel

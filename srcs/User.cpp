@@ -250,7 +250,8 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 		try {
 			Channel *chan = g_channels.at(tab[1]);
 
-			if (chan->is_banned(this))
+			if (chan->is_banned(this) ||
+				(chan->is_moderated() && !_is_op && !chan->is_op(this)))
 			{
 				send_to(ERR_CANNOTSENDTOCHAN(_nick, chan->get_name()));
 				return false;
@@ -567,9 +568,12 @@ bool	User::command_MODE(vector<string> const &tab) {
 		return true; // ??
 	}
 
-	if (!_is_op && !chan->is_op(this)) {
+	if (!_is_op && !chan->is_op(this) && !tab[2].empty()) {
 		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
 		return false;
+	}
+	if (tab[2].empty()) {
+		;
 	}
 
 	curr_arg = _next_arg_mode(tab, curr_arg);
@@ -646,4 +650,3 @@ int	User::_next_arg_mode(vector<string> const &tab, int i) const {
 	}
 	return -1;
 }
-

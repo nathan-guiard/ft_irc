@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 11:11:52 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:26:50 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ public:
 	bool	rm_user(User *user);
 	bool	has_user(User *user);
 	bool	is_empty() const;
+	bool	is_moderated()	const;
 	bool	broadcast(string const& str, User *excluded);
 
 	bool	is_op(User *user)		const;
