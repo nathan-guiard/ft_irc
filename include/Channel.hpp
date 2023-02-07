@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:31:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 16:12:17 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ public:
 	void	set_topic_right(bool status);
 	void	set_moderated(bool status);
 	void	set_limit(size_t limit);
+
+	bool	get_topic_right()	const { return _topic_right; };
 
 	bool	invite(User *nick);
 	bool	ban(User *nick);
