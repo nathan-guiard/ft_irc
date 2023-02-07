@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/03 19:16:11 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:00:41 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ bool	deconnection(con_data &data, int fd) {
 		}
 	}
 	
-	cout << "User " << id_of_disconnected;
-	cout << " disconnected." << endl;
+	cout << PRINT_LOG << "User " << id_of_disconnected;
+	cout << " disconnected." << PRINT_RESET << endl;
 	return true;
 }
 

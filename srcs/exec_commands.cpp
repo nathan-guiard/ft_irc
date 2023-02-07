@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 19:23:13 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:09:27 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_commands(int user_id, int user_fd,
 
 	cout << "\033[0;34m";
 	for (; it != ite; it++) {
-		cout << user_id << " < " << *it << endl;
+		cout << "\033[" << 31 + ((user_id) % 7) << "m" << user_id << " < " << *it << endl;
 		vector<string> splitted_command = command_parsing(*it);
 
 		if (splitted_command[0] == "PASS")

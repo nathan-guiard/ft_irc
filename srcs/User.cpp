@@ -232,7 +232,7 @@ bool	User::send_to(string text) const {
 	if (write(_fd, text.c_str(), text.length()) < 1)
 		return false;
 
-	cout << "\033[32m" << _id << " > " << text << "\033[0m";
+	cout << "\033[96m" << _id << " > " << text << "\033[0m";
 	return true;
 }
 

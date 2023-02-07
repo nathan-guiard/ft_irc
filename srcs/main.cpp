@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/01/31 15:13:59 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:59:23 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 		return 2;
 	}
 	signal(SIGINT, signal_handling);
-	cout << "Port: " << port << endl << "Password: " << password << endl;
+	cout << PRINT_LOG << "Port: " << port << endl << "Password: " << password << endl;
 	data = init_connection_data(port);
 
 	while (42) {

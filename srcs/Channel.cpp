@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:36:45 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:00:20 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Channel::Channel() { cerr << "USING THE WRONG CHANNEL CONSTRUCTOR" << endl; }
 Channel::Channel(string name): _name(name), _users(), _banned(), _invited(),
 							_invite_only(false), _moderated(false), _topic_right(false), 
 							_limit(-1) {
-	cout << "Creating channel " << _name << endl;
+	cout << PRINT_LOG << "Creating channel " << _name << PRINT_RESET << endl;
 }
 
 Channel::Channel(const Channel &copy) {
@@ -30,7 +30,7 @@ Channel	&Channel::operator = (const Channel &copy) {
 }
 
 Channel::~Channel() {
-	cout << "Deleting channel " << _name << endl;
+	cout << PRINT_LOG << "Deleting channel " << _name << PRINT_RESET << endl;
 }
 
 string	Channel::get_name()	const {

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 11:10:40 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:58:40 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 #define MAX_CONNECTIONS	16
 #define	READ_SIZE		16
 #define	PASSWORD		"JesuisBelle_42"
+
+#define PRINT_LOG		"\033[3;1;31m"
+#define PRINT_RESET		"\033[0m"
 
 using namespace std;
 
