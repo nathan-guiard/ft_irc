@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 18:30:19 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:11:52 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ public:
 	bool	is_empty() const;
 	bool	broadcast(string const& str, User *excluded);
 
-	bool	is_op(User *user)	const;
+	bool	is_op(User *user)		const;
+	bool	is_banned(User *user)	const;
 
 	//	Modes
 	void	set_invite_only(bool status);

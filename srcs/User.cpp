@@ -249,6 +249,12 @@ bool	User::command_PRIVMSG(vector<string> const& tab) {
 	{
 		try {
 			Channel *chan = g_channels.at(tab[1]);
+
+			if (chan->is_banned(this))
+			{
+				send_to(ERR_CANNOTSENDTOCHAN(_nick, chan->get_name()));
+				return false;
+			}
 			string s = tab[2];
 			for (size_t j = 3; j < tab.size(); j++) {
 				if (!tab[j].empty())
@@ -566,11 +572,11 @@ bool	User::command_MODE(vector<string> const &tab) {
 		return false;
 	}
 
+	curr_arg = _next_arg_mode(tab, curr_arg);
 	for (int i = 2; !tab[i].empty(); i++) {
 		bool	plus;
 		bool	args = true;
 
-		curr_arg = _next_arg_mode(tab, curr_arg);
 		tab[i][0] == '+' ? plus = true : plus = false;
 
 		if (curr_arg == -1)
@@ -624,7 +630,7 @@ bool	User::command_MODE(vector<string> const &tab) {
 	for (size_t k = 0; k < banned.size(); k++)
 	{
 		if (banned[k]) {
-		chan->broadcast(BANNED(banned[k]->get_nick(), chan->get_name()), NULL);
+		chan->broadcast(BANNED(_nick, _user, string("localhost"), chan->get_name(), banned[k]->get_nick()), NULL);
 		chan->rm_user(banned[k]);
 		}
 	}
