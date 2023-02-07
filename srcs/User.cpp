@@ -331,9 +331,11 @@ bool User::command_QUIT(vector<string> const& tab) {
 		if ((*it).second != this)
 		{
 			if (has_a_reason)
-				(*it).second->send_to(QUIT_REASON(_nick, _user, string("localhost"), s));
+				(*it).second->send_to(QUIT_REASON(_nick, _user,
+												string("localhost"), s));
 			else
-				(*it).second->send_to(QUIT(_nick, _user, string("localhost")));
+				(*it).second->send_to(QUIT(_nick, _user,
+											string("localhost")));
 		}
 	}
 
@@ -345,7 +347,8 @@ bool User::command_QUIT(vector<string> const& tab) {
 		if (chan->has_user(this))
 		{
 			if (has_a_reason)
-				chan->broadcast(PART_REASON(_nick, _user, string("localhost"), tab[1], s), NULL);
+				chan->broadcast(PART_REASON(_nick, _user, string("localhost"),
+											tab[1], s), NULL);
 			else
 				chan->broadcast(PART(_nick, _user, string("localhost"), tab[1]), NULL);
 			chan->rm_user(this);
@@ -622,6 +625,9 @@ bool	User::command_MODE(vector<string> const &tab) {
 			}
 			if (tab[i][j] == 'm') {
 				chan->set_moderated(plus);
+			}
+			if (tab[i][j] == 't') {
+				chan->set_topic_right(plus);
 			}
 			if (tab[i][j] == '-') {
 				plus = false;

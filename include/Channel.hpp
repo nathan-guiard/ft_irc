@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:16:05 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:26:50 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:31:06 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ public:
 
 	//	Modes
 	void	set_invite_only(bool status);
+	void	set_topic_right(bool status);
 	void	set_moderated(bool status);
 	void	set_limit(size_t limit);
 
@@ -52,7 +53,7 @@ private:
 	user_set	_users;
 	set<User *>	_banned;
 	set<User *>	_invited;
-	bool		_invite_only, _moderated;
+	bool		_invite_only, _moderated, _topic_right;
 	size_t		_limit;
 
 	bool	_add_user_verifications(User *new_user)	const;

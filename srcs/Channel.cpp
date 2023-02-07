@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:27:18 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:36:45 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 Channel::Channel() { cerr << "USING THE WRONG CHANNEL CONSTRUCTOR" << endl; }
 
 Channel::Channel(string name): _name(name), _users(), _banned(), _invited(),
-							_invite_only(false), _moderated(false), _limit(-1) {
+							_invite_only(false), _moderated(false), _topic_right(false), 
+							_limit(-1) {
 	cout << "Creating channel " << _name << endl;
 }
 
@@ -151,6 +152,10 @@ void	Channel::set_invite_only(bool status) {
 
 void	Channel::set_moderated(bool status) {
 	_moderated = status;
+}
+
+void	Channel::set_topic_right(bool status) {
+	_topic_right = status;
 }
 
 void	Channel::set_limit(size_t limit) {
