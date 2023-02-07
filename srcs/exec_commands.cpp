@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:50:24 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 13:09:27 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 16:24:01 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	exec_commands(int user_id, int user_fd,
 			bob->command_KICK(splitted_command);
 		else if (splitted_command[0] == "MODE")
 				bob->command_MODE(splitted_command);
+		else if (splitted_command[0] == "TOPIC")
+			bob->command_TOPIC(splitted_command);
 		else if (splitted_command[0] == "KILL")
 		{
 			int fd = bob->command_KILL(splitted_command);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numeric_replies.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/07 11:16:06 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/07 16:20:46 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,34 @@
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
 
+# define RPL_NOTOPIC(nick, user, host, chan) ("331 " + nick + "!" + user + "@" + host + " " + chan + " :No topic is set\r\n")
+
+# define TOPIC(nick, user, host, chan, topic) (":" + nick + "!" + user + "@" + host + " TOPIC " + chan + " :" + topic + "\n\r")
+
+# define RPL_TOPIC(nick, user, host, chan, topic) ("332 " + nick + "!" + user + "@" + host + " " + chan + " :" + topic + "\r\n")
+//ecrit le topic du channel si celui ci est set
+# define RPL_TOPICWHOTIME(nick, chan, whoset, user, setat) ("333 " + nick + " " + chan + " " + whoset + "!" + user + "@localhost " + setat + "\r\n")
+
+
+
+//topic #chan
+	//->renvoie 331 ou 332 return true
+//topic #chan "nouveau ntopic"
+	//->envoie a tout le monde TOPIC
+//topic #chan qui existe pas
+	//no such chan 403
+//topic #chan :
+	//->clear le topic du chan
+	//tt les gens sur le chan meme moi recoit TOPIC
+//si le user est pas sur le chan
+	//442 NOTONCHANNEL return false
+//si RPL_TOPIC est envoye envoyer aussi  RPL_TOPICWHOTIME 333
+//si le mode protected channel et pas les permissions
+	//ERR_CHANOPRIVSNEEDED (482) return false
+
+//QD tu join , fais vmt le 332
+
+
 # define ERR_ALREADYREGISTERED "462 :Unauthorized command (already registered)\r\n"
 
 # define ERR_NEEDMOREPARAMS(command) ("461 " + command + " :Not enough parameters\r\n")
@@ -64,6 +92,7 @@
 # define ERR_NICKNAMEISUSE(nick) ("433 NICK :" + nick + "\r\n")
 
 # define ERR_NOSUCHNICK(invitenick) ("401 " + invitenick + " :No such nick/channel\r\n")
+
 # define ERR_NOSUCHCHANNEL(channel) ("403 " + channel + " :No such channel\r\n")
 
 # define RPL_YOUREOPER(nick) ("381 " + nick + " :You are now an IRC operator\r\n")
