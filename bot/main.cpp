@@ -32,9 +32,9 @@ bool args_parsing(int argc, char **argv, int *port, string *password) {
 	return false;
 }
 
-short SocketCreate(void)
+int SocketCreate(void)
 {
-	short fd_socket;
+	int fd_socket;
 	fd_socket = socket(AF_INET, SOCK_STREAM, 0);
 	return fd_socket;
 }
@@ -50,7 +50,7 @@ int SocketConnect(int fd_socket, int port)
 	return iRetval;
 }
 
-int SocketSend(int fd_socket,char* Rqst,short lenRqst)
+int SocketSend(int fd_socket,char* to_send,int len)
 {
 	int send_ret = -1;
 	struct timeval tv;
@@ -59,11 +59,11 @@ int SocketSend(int fd_socket,char* Rqst,short lenRqst)
 	if(setsockopt(fd_socket, SOL_SOCKET, SO_SNDTIMEO, (char *)&tv, sizeof tv) < 0) {
 		return -1;
 	}
-	send_ret = send(fd_socket, Rqst, lenRqst, 0);
+	send_ret = send(fd_socket, to_send, len, 0);
 	return send_ret;
 }
 
-int SocketReceive(int fd_socket,char* Rsp,short RvcSize)
+int SocketReceive(int fd_socket, char* buff, int size)
 {
 	int send_ret = -1;
 	struct timeval tv;
@@ -72,7 +72,7 @@ int SocketReceive(int fd_socket,char* Rsp,short RvcSize)
 	if(setsockopt(fd_socket, SOL_SOCKET, SO_RCVTIMEO,(char *)&tv,sizeof(tv)) < 0) {
 		return -1;
 	}
-	send_ret = recv(fd_socket, Rsp, RvcSize, 0);
+	send_ret = recv(fd_socket, buff, size, 0);
 	return send_ret;
 }
 
