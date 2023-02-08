@@ -693,13 +693,11 @@ bool	User::command_TOPIC(vector<string> const &tab)
 		}
 	}
 
-	if (!tab[2].empty() && !chan->is_op(this) && chan->get_topic_right()) {
-		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
-		return false;
-	} else if (!tab[2].empty() && !_is_op && chan->get_topic_right()) {
+	if (!tab[2].empty() && !(chan->is_op(this) || _is_op) && chan->get_topic_right()) {
 		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
 		return false;
 	}
+	
 	string s = tab[2];
 	for (size_t j = 3; j < tab.size(); j++) {
 		if (!tab[j].empty())
@@ -734,7 +732,6 @@ bool	User::command_NOTICE(vector<string> const &tab)
 		return false;
 	
 	if (tab[2].empty()) {
-		send_to(ERR_NEEDMOREPARAMS(string("PRIVMSG")));
 		return false;
 	}
 
@@ -746,7 +743,6 @@ bool	User::command_NOTICE(vector<string> const &tab)
 			if (chan->is_banned(this) ||
 				(chan->is_moderated() && !_is_op && !chan->is_op(this)))
 			{
-				//send_to(ERR_CANNOTSENDTOCHAN(_nick, chan->get_name()));
 				return false;
 			}
 			string s = tab[2];
@@ -762,7 +758,6 @@ bool	User::command_NOTICE(vector<string> const &tab)
 		}
 		catch (exception const& e)
 		{
-			//send_to(ERR_NOSUCHNICK(tab[1]));
 			return false;
 		}
 	}
@@ -780,7 +775,6 @@ bool	User::command_NOTICE(vector<string> const &tab)
 			try {
 				user = g_users.at(user_id);
 			} catch (exception const &e) {
-				//send_to(ERR_NOSUCHNICK(tab[1]));
 				return false;
 			}
 			string s = tab[2];
@@ -796,7 +790,6 @@ bool	User::command_NOTICE(vector<string> const &tab)
 		}
 		catch (exception const& e)
 		{
-			//send_to(ERR_NOSUCHNICK(tab[1]));
 			return false;
 		}
 
@@ -824,13 +817,13 @@ bool	User::command_INVITE(vector<string> const &tab)
 	}
 
 	/*CHECK PRIVILEGES*/
-	if (!chan->is_op(this) && chan->get_invite_only()) {
+	if (!(chan->is_op(this) || _is_op) && chan->get_invite_only()) {
 		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
 		return false;
-	} else if (!_is_op && chan->get_invite_only()) {
+	} /* else if ( && chan->get_invite_only()) {
 		send_to(ERR_CHANOPRIVSNEEDED(chan->get_name()));
 		return false;
-	}
+	} */
 
 	/*CHECK IF YOU ARE ON CHAN*/
 	if (!chan->has_user(this)) {
@@ -860,6 +853,8 @@ bool	User::command_INVITE(vector<string> const &tab)
 		send_to(ERR_USERONCHANNEL(_nick, user->get_nick(), chan->get_name()));
 		return false ;
 	}
+
+	chan->invite(user);
 
 	/*SEND DES MESSAGES D'INVIT*/
 	send_to(RPL_INVITING(_nick, _user, (string)"localhost", user->get_nick(),

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:42:47 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 18:53:23 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:26:57 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,10 @@ bool	Channel::rm_user(User *user) {
 	if (it == ite) {
 		return false;
 	}
-	
+
+	_banned.erase(user);
+	_invited.erase(user);
+
 	_users.erase(it);
 	return true;
 }

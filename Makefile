@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/02/01 17:20:07 by nguiard          ###   ########.fr        #
+#    Updated: 2023/02/08 09:34:51 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,16 @@ SRC =	$(addsuffix .cpp, 	\
 		exec_commands		\
 		))
 
+BONUS_SRC =	$(addsuffix .cpp, 	\
+			$(addprefix bot/,	\
+			main 				\
+			))
+
 SHELL	= /bin/zsh
 
 OBJ		= ${SRC:srcs/%.cpp=obj/%.o}
+
+BONUSOBJ = ${BONUS_SRC:bot/%.cpp=bot_obj/%.o}
 
 CC		= c++
 
@@ -35,11 +42,15 @@ CFLAGS	= -Wall -Werror -Wextra -std=c++98 ${INCLUDE} -g #-fsanitize=address
 
 NAME	= ircserv
 
+NAME_BONUS = irc_bot
+
 MAKE	= --silent --jobs
 
 MY_MAKE	= make --silent --jobs
 
 total	:= $(shell echo ${SRC} | wc -w)
+
+total_bonus	:= $(shell echo ${BONUS_SRC} | wc -w)
 
 percent	:= 0
 
@@ -48,6 +59,8 @@ current	:= 1
 save_percent ?= 0
 
 len := $(shell echo ${NAME} | wc -c)
+
+len_bonus := $(shell echo ${NAME} | wc -c)
 
 all:
 	@${MY_MAKE} setup
@@ -58,8 +71,19 @@ all:
 	@make --silent ${NAME}
 	@${MY_MAKE} end_make
 
+bot: bonus
+
+bonus:
+	@${MY_MAKE} setup
+	@echo -ne "\033[5;3H\033[1;32mObjets deja compilés!\033[m";
+	@make --silent ${BONUSOBJ}
+	@echo -ne "\033[10;3H\033[1;32m${NAME_BONUS} deja compilé!\033[m";
+	@echo -ne "\033[12;H"
+	@make --silent ${NAME_BONUS}
+	@${MY_MAKE} end_make
+
 obj/%.o: srcs/%.cpp
-	@printf "\033[5;2H                                                  \033[5;3H%s" $< ${<:.c=⠀⠀}
+	@printf "\033[5;2H                                                  \033[5;3H%s" $< ${<:.cpp=⠀⠀⠀}
 	@echo -ne "\033[12;H"
 	@${CC} ${CFLAGS} -c $< -o ${<:srcs/%.cpp=obj/%.o}	
 	@$(eval percent=$(shell expr ${current} "*" 100 / ${total}))
@@ -68,9 +92,24 @@ obj/%.o: srcs/%.cpp
 	$(call loading,${percent})
 	@$(eval current=$(shell expr ${current} + 1))
 
+bot_obj/%.o: bot/%.cpp
+	@printf "\033[5;2H                                                  \033[5;3H%s" $< ${<:.cpp=⠀⠀⠀}
+	@echo -ne "\033[12;H"
+	@${CC} ${CFLAGS} -c $< -o ${<:bot/%.cpp=bot_obj/%.o}	
+	@$(eval percent=$(shell expr ${current} "*" 100 / ${total_bonus}))
+	@echo -ne "\033[6;3H"
+	@printf "%d/%d:   \t\t%d%%" ${current} ${total_bonus} ${percent}
+	$(call loading,${percent})
+	@$(eval current=$(shell expr ${current} + 1))
+
 ${NAME}: ${OBJ}
-	@${CC} ${OBJ} ${CFLAGS}  -lXext -lX11 -lm -o ${NAME};
+	@${CC} ${OBJ} ${CFLAGS} -o ${NAME};
 	@printf "\033[10;3H\033[1mCompilation de ${NAME} \033[32mterminee\033[1;37m!";
+	@${MY_MAKE} end_make
+
+${NAME_BONUS}: ${BONUSOBJ}
+	@${CC} ${BONUSOBJ} ${CFLAGS} -o ${NAME_BONUS};
+	@printf "\033[10;3H\033[1mCompilation de ${NAME_BONUS} \033[32mterminee\033[1;37m!";
 	@${MY_MAKE} end_make
 
 setup:
@@ -109,9 +148,9 @@ end_make:
 re: fclean all
 
 fclean:
-	@rm -rf ${NAME} ${OBJ} 
+	@rm -rf ${NAME} $(NAME_BONUS) ${OBJ} ${BONUSOBJ}
 
 clean:
-	@rm -rf ${OBJ}
+	@rm -rf ${OBJ} ${BONUSOBJ}
 
-.PHONY: clean fclean re end_make all setup libft_rule
+.PHONY: clean fclean re end_make all setup libft_rule bonus bot

@@ -1,5 +1,7 @@
 ircserv
+irc_bot
 
 .vscode
 .vscode/**
 obj/*.o
+bot_obj/*.o

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numeric_replies.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:48:00 by eleotard          #+#    #+#             */
-/*   Updated: 2023/02/07 20:40:08 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:43:21 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define PRIVMSG(nick, user, host, dest, str) (":" + nick + "!" + user + "@" + host + " PRIVMSG " + dest + " :" + str + "\r\n") //dest cest le nom du channel
 //pour envoyer 
 
-# define NOTICE(nick, user, host, chan, str) (":" + nick + "!" + user + "@" + host + "NOTICE " + chan + " :" + str + "\r\n")
+# define NOTICE(nick, user, host, chan, str) (":" + nick + "!" + user + "@" + host + " NOTICE " + chan + " :" + str + "\r\n")
 
 # define PART(nick, user, host, chan) (":" + nick + "!" + user + "@" + host + " PART " + chan + "\r\n")
 
@@ -47,7 +47,7 @@
 
 # define KICK(nick, user, host, chan, kicked, reason) (":" + nick + "!" + user + "@" + host + " KICK " + chan + " " + kicked + " :" + reason + "\r\n")
 
-# define INVITE(nick, user, host, nickinvite, channel)  (nick + "!" + user + "@" + host + " INIVITE " + nickinvite + " " + channel + "\r\n")
+# define INVITE(nick, user, host, nickinvite, channel)  (":" + nick + "!" + user + "@" + host + " INVITE " + nickinvite + " " + channel + "\r\n")
 //message que recoit la personne qui est invitee dans un channel
 //dans la console de la personne qui est invitee et aussi dans log : <nick>!<user>@host INIVITE <nick> <channel>
 
@@ -91,7 +91,7 @@
 # define RPL_ENDOFNAMES(nick, user, host, channel) ("366 " + nick + "!" + user + "@" + host + " " + channel + " :End of NAMES list\r\n")
 //3e message standard qu on recoit quand on rejoint un channel
 
-# define RPL_INVITING(nick, user, host, invitenick, channel) ("341 " + nick + "!" + user + "@" + host + " " + invitenick + " " + channel)
+# define RPL_INVITING(nick, user, host, invitenick, channel) ("341 " + nick + "!" + user + "@" + host + " " + invitenick + " " + channel + "\r\n")
 //afficher ce message dans la log console et dans la console de la personne qui invite
 //pas dans la console de la personne qui est invitee. La personne invitee a le message du #define INVITE
 
