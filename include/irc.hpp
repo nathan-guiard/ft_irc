@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:20:40 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:58:40 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/08 16:04:11 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 #define LOCALHOST       "127.0.0.1"
 #define MAX_CONNECTIONS	16
-#define	READ_SIZE		16
+#define	READ_SIZE		512
 #define	PASSWORD		"JesuisBelle_42"
 
 #define PRINT_LOG		"\033[3;1;31m"

@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:24:38 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 12:59:23 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/08 15:59:49 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ bool args_parsing(int argc, char **argv, int *port, string *password) {
 	}
 	*port = atoi(argv[1]);
 	*password = argv[2];
+	if (password->empty() || password->size() == 0) {
+		cerr << "Password must not be empty." << endl;
+		return true;
+	}
 	return false;
 }
 

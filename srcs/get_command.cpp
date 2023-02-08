@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 11:00:21 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/06 17:52:29 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:26:29 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-static string	read_connection_data(int fd_user);
+string	read_connection_data(int fd_user);
 
 /**
  * @brief 	get every command that the user sended.
@@ -24,7 +24,6 @@ static string	read_connection_data(int fd_user);
  */
 vector<string>	get_command(int fd_user, int id_user) {
 	static map<int, string>	command;
-	// static string	command[MAX];
 	string			line;
 	vector<string>	res;
 	bool			has_no_newline;
@@ -44,6 +43,7 @@ vector<string>	get_command(int fd_user, int id_user) {
 
 	while (!whole_string_splitted) {
 		bool should_not_push_back;
+
 		command[id_user] = string(command[id_user], index + 2);
 		index = command[id_user].find("\r\n");
 		line = string(command[id_user], 0, index);
@@ -51,11 +51,11 @@ vector<string>	get_command(int fd_user, int id_user) {
 		should_not_push_back = line.empty() || line.size() == 0
 								|| command[id_user].find("\r\n") == string::npos;
 		if (should_not_push_back) {
-			size_t index_nl = command[id_user].find("\r\n");
+			// size_t index_nl = command[id_user].find("\r\n");
 
-			if (index_nl != string::npos) {
-				command[id_user].erase(index_nl, 2);
-			}
+			// if (index_nl != string::npos) {
+			// 	command[id_user].erase(index_nl, 2);
+			// }
 			break;
 		}
 		res.push_back(line);
@@ -65,7 +65,9 @@ vector<string>	get_command(int fd_user, int id_user) {
 	return res;
 }
 
-static string	read_connection_data(int fd_user) {
+#include <string.h>
+
+string	read_connection_data(int fd_user) {
 	char				buff[READ_SIZE + 1];
 	int					bytes_read;
 	string				res;	
@@ -76,7 +78,7 @@ static string	read_connection_data(int fd_user) {
 	buff[bytes_read] = 0;
 	while (bytes_read > 0) {
 		res.append(buff);
-		if (bytes_read < READ_SIZE || strstr(buff, "\r\n") == buff + 14)
+		if (bytes_read < READ_SIZE || strstr(buff, "\r\n") == buff + READ_SIZE - 2)
 			break;
 		bytes_read = read(fd_user, buff, READ_SIZE);
 		buff[bytes_read] = 0;

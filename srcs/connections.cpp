@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:17:09 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 13:00:41 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/08 16:11:49 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ bool	new_connection(int fd_epoll, int fd_socket) {
 	g_open_fd.push_back(fd_new_con);
 	event_new_con.events = EPOLLIN | EPOLLRDHUP;
 	event_new_con.data.fd = fd_new_con;
-	
+
+	fcntl(fd_new_con, F_SETFL, O_NONBLOCK);
+
 	if (epoll_ctl(fd_epoll, EPOLL_CTL_ADD, fd_new_con, &event_new_con) == -1)
 		closeAndFreeAll("epoll_ctl error", 7);
 	id++;
