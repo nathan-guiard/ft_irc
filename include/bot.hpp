@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 14:05:52 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/07 17:22:34 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/08 10:02:17 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ using namespace std;
 
 class Client {
 public:
-	Client(): a(false), b(a), c(a), d(a), e(a), has_failed(a) {}
+	Client(): a(false), b(false), c(false), d(false), e(false), has_failed(a) {}
 	~Client() {}
 	
 	short	level()	const {
@@ -62,18 +62,16 @@ public:
 	}
 
 	void	passed(short level) {
-		switch (level) {
-			case 0:
-				a = true;
-			case 1:
-				b = true;
-			case 2:
-				c = true;
-			case 3:
-				d = true;
-			case 4:
-				e = true;
-		}
+		if (level == 0)
+			a = true;
+		if (level == 1)
+			b = true;
+		if (level == 2)
+			c = true;
+		if (level == 3)
+			d = true;
+		if (level == 4)
+			e = true;
 	}
 
 	void	failed() {

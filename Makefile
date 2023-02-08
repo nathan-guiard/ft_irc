@@ -6,7 +6,7 @@
 #    By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/16 15:42:20 by nguiard           #+#    #+#              #
-#    Updated: 2023/02/07 15:08:33 by nguiard          ###   ########.fr        #
+#    Updated: 2023/02/08 09:34:51 by nguiard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,9 +148,9 @@ end_make:
 re: fclean all
 
 fclean:
-	@rm -rf ${NAME} ${OBJ} 
+	@rm -rf ${NAME} $(NAME_BONUS) ${OBJ} ${BONUSOBJ}
 
 clean:
-	@rm -rf ${OBJ}
+	@rm -rf ${OBJ} ${BONUSOBJ}
 
-.PHONY: clean fclean re end_make all setup libft_rule
+.PHONY: clean fclean re end_make all setup libft_rule bonus bot
