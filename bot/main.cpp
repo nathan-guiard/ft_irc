@@ -32,25 +32,25 @@ bool args_parsing(int argc, char **argv, int *port, string *password) {
 	return false;
 }
 
-int SocketCreate(void)
+int socket_create(void)
 {
 	int fd_socket;
 	fd_socket = socket(AF_INET, SOCK_STREAM, 0);
 	return fd_socket;
 }
 
-int SocketConnect(int fd_socket, int port)
+int socket_connect(int fd_socket, int port)
 {
-	int iRetval=-1;
+	int ret_connect=-1;
 	struct sockaddr_in remote;
 	remote.sin_addr.s_addr = inet_addr("127.0.0.1");
 	remote.sin_family = AF_INET;
 	remote.sin_port = htons(port);
-	iRetval = connect(fd_socket,(struct sockaddr *)&remote,sizeof(struct sockaddr_in));
-	return iRetval;
+	ret_connect = connect(fd_socket,(struct sockaddr *)&remote,sizeof(struct sockaddr_in));
+	return ret_connect;
 }
 
-int SocketSend(int fd_socket,char* to_send,int len)
+int socket_send(int fd_socket,char* to_send,int len)
 {
 	int send_ret = -1;
 	struct timeval tv;
@@ -86,15 +86,15 @@ int main(int argc, char **argv) {
 	if (args_parsing(argc, argv, &port, &password))
 		return 2;
 
-	fd_socket = SocketCreate();
+	fd_socket = socket_create();
 	if (fd_socket == -1)
 		return 1;
-	if (SocketConnect(fd_socket, port) < 0) {
+	if (socket_connect(fd_socket, port) < 0) {
 		perror("connect()");
 		return 1;
 	}
 
-	SocketSend(fd_socket, (char *)auth.c_str(), auth.length());
+	socket_send(fd_socket, (char *)auth.c_str(), auth.length());
 	read_size = SocketReceive(fd_socket, server_reply, 200);
 	reply.append(server_reply);
 	if (reply.find("433") == 0) {
@@ -198,7 +198,7 @@ int main(int argc, char **argv) {
 
 		to_send = "PRIVMSG " + nick + " :" + to_send + "\r\n";
 
-		SocketSend(fd_socket, (char *)to_send.c_str(), to_send.length());
+		socket_send(fd_socket, (char *)to_send.c_str(), to_send.length());
 		reply.clear();
 	}
 	return 0;
