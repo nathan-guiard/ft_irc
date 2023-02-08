@@ -125,80 +125,81 @@ int main(int argc, char **argv) {
 		if (reply[0] == ':')
 			nick = string(reply, 1, reply.find("!") - 1);
 
-		if (reply.find_last_of(":") == string::npos || reply.find("NICK") != string::npos)
-			continue;
-		answer = string(reply, reply.find_last_of(":") + 1, reply.length() - 1);
-		
-		cout << "\033[36m" + nick + " < " + answer << endl;
+		if (!(reply.find_last_of(":") == string::npos || reply.find("NICK") != string::npos))
+		{
+			answer = string(reply, reply.find_last_of(":") + 1, reply.length() - 1);
+			
+			cout << "\033[36m" + nick + " < " + answer << endl;
 
-		Client *current = NULL;
-		
-		try {
-			current = clients.at(nick);
-			level = current->level();
+			Client *current = NULL;
+			
+			try {
+				current = clients.at(nick);
+				level = current->level();
 
-			if (answer == "Quoi?" || answer == "Quoi" || answer == "quoi" || answer == "quoi?")
-				to_send = "feur";
-			else if (level == -1) {
-				to_send = "Tu as deja perdu, tu ne peux pas reessayer...";
-			} else if (level == 0) {
-				if (answer.find("Paris") == 0) {
-					current->passed(level);
-					to_send = "Bonne reponse, Combien font 783 * 1276 / 4995 (arrondi)?";
+				if (answer == "Quoi?" || answer == "Quoi" || answer == "quoi" || answer == "quoi?")
+					to_send = "feur";
+				else if (level == -1) {
+					to_send = "Tu as deja perdu, tu ne peux pas reessayer...";
+				} else if (level == 0) {
+					if (answer.find("Paris") == 0) {
+						current->passed(level);
+						to_send = "Bonne reponse, Combien font 783 * 1276 / 4995 (arrondi)?";
+					} else {
+						current->failed();
+						to_send = "C'est une mauvaise reponse, pas de chance.";
+					}
+				} else if (level == 1) {
+					if (answer.find("200") == 0) {
+						current->passed(level);
+						to_send = "Bonne reponse, Quel est le meilleur jeu sorti en 2019 ?";
+					} else {
+						current->failed();
+						to_send = "C'est une mauvaise reponse, pas de chance.";
+					}
+				} else if (level == 2) {
+					if (answer.find("Outer Wilds") == 0) {
+						current->passed(level);
+						to_send = "Bonne reponse, Quelles sont les 4 premieres decimalees de pi?";
+					} else {
+						current->failed();
+						to_send = "C'est une mauvaise reponse, pas de chance.";
+					}
+				} else if (level == 3) {
+					if (answer.find("1415") == 0 || answer.find("3.1415") == 0) {
+						current->passed(level);
+						to_send = "Bonne reponse, Quel est le sens de la vie?";
+					} else {
+						current->failed();
+						to_send = "C'est une mauvaise reponse, pas de chance.";
+					}
+				} else if (level == 4) {
+					if (answer.find("42") == 0) {
+						current->passed(level);
+						to_send = string("Bravo! Tu as gagne le mot de passe OPER.")
+						+ " With great power comes great responsibility! Fais y attention:"
+						+ " JesuisBelle_42";
+					} else {
+						current->failed();
+						to_send = "C'est une mauvaise reponse, pas de chance.";
+					}
 				} else {
-					current->failed();
-					to_send = "C'est une mauvaise reponse, pas de chance.";
+					to_send = "Tu as deja fini le quizz.";
 				}
-			} else if (level == 1) {
-				if (answer.find("200") == 0) {
-					current->passed(level);
-					to_send = "Bonne reponse, Quel est le meilleur jeu sorti en 2019 ?";
-				} else {
-					current->failed();
-					to_send = "C'est une mauvaise reponse, pas de chance.";
-				}
-			} else if (level == 2) {
-				if (answer.find("Outer Wilds") == 0) {
-					current->passed(level);
-					to_send = "Bonne reponse, Quelles sont les 4 premieres decimalees de pi?";
-				} else {
-					current->failed();
-					to_send = "C'est une mauvaise reponse, pas de chance.";
-				}
-			 } else if (level == 3) {
-				if (answer.find("1415") == 0 || answer.find("3.1415") == 0) {
-					current->passed(level);
-					to_send = "Bonne reponse, Quel est le sens de la vie?";
-				} else {
-					current->failed();
-					to_send = "C'est une mauvaise reponse, pas de chance.";
-				}
-			} else if (level == 4) {
-				if (answer.find("42") == 0) {
-					current->passed(level);
-					to_send = string("Bravo! Tu as gagne le mot de passe OPER.")
-					+ " With great power comes great responsibility! Fais y attention:"
-					+ " JesuisBelle_42";
-				} else {
-					current->failed();
-					to_send = "C'est une mauvaise reponse, pas de chance.";
-				}
-			} else {
-				to_send = "Tu as deja fini le quizz.";
+			} catch (exception const &e) {
+				current = new Client();
+				clients.insert(make_pair(nick, current));
+				to_send = string("Salut ") + nick + "! Bienvenue au super quizz."
+					+ " Reponds a 5 questions pour avoir un super cadeau!"
+					+ " Quelle est la capitale de france?";
 			}
-		} catch (exception const &e) {
-			current = new Client();
-			clients.insert(make_pair(nick, current));
-			to_send = string("Salut ") + nick + "! Bienvenue au super quizz."
-				+ " Reponds a 5 questions pour avoir un super cadeau!"
-				+ " Quelle est la capitale de france?";
+
+			cout << "\033[31m" << nick << " > " << to_send  << "\033[0m" << endl;
+
+			to_send = "PRIVMSG " + nick + " :" + to_send + "\r\n";
+
+			socket_send(fd_socket, (char *)to_send.c_str(), to_send.length());
 		}
-
-		cout << "\033[31m" << nick << " > " << to_send  << "\033[0m" << endl;
-
-		to_send = "PRIVMSG " + nick + " :" + to_send + "\r\n";
-
-		socket_send(fd_socket, (char *)to_send.c_str(), to_send.length());
 		reply.clear();
 	}
 	return 0;
